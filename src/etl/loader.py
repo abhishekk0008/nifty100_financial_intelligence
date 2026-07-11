@@ -47,7 +47,7 @@ class ExcelLoader:
 
         logger.info(f"Loading {filename}")
 
-        df = pd.read_excel(filepath, header=header)
+        df = pd.read_excel(filepath, header=1)
 
         logger.info(f"{filename} loaded successfully. Shape: {df.shape}")
 
