@@ -27,14 +27,22 @@ class Database:
 
     def insert_dataframe(self, table_name, dataframe):
 
+        print(f"\n>>> INSERTING {table_name}")
+
         dataframe.to_sql(
             table_name,
             self.connection,
             if_exists="append",
-            index=False
+            index=False,
         )
 
         self.connection.commit()
+
+        count = self.connection.execute(
+            f"SELECT COUNT(*) FROM {table_name}"
+        ).fetchone()[0]
+
+        print(f">>> {table_name} rows after insert = {count}")
 
     def close(self):
         self.connection.close()

@@ -7,7 +7,6 @@ from pathlib import Path
 import logging
 import pandas as pd
 
-# Configure logging
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s | %(levelname)s | %(message)s"
@@ -27,17 +26,6 @@ class ExcelLoader:
     def load_excel(self, filename, header=0):
         """
         Load a single Excel file.
-
-        Parameters
-        ----------
-        filename : str
-            Excel filename
-        header : int
-            Header row
-
-        Returns
-        -------
-        pandas.DataFrame
         """
 
         filepath = self.data_folder / filename
@@ -47,7 +35,7 @@ class ExcelLoader:
 
         logger.info(f"Loading {filename}")
 
-        df = pd.read_excel(filepath, header=1)
+        df = pd.read_excel(filepath, header=header)
 
         logger.info(f"{filename} loaded successfully. Shape: {df.shape}")
 
@@ -59,20 +47,26 @@ class ExcelLoader:
         """
 
         files = {
-            "companies": "companies.xlsx",
-            "profit_loss": "profitandloss.xlsx",
-            "balance_sheet": "balancesheet.xlsx",
-            "cash_flow": "cashflow.xlsx",
-            "analysis": "analysis.xlsx",
-            "documents": "documents.xlsx",
-            "pros_cons": "prosandcons.xlsx",
+            "companies": ("companies.xlsx", 1),
+            "profit_loss": ("profitandloss.xlsx", 1),
+            "balance_sheet": ("balancesheet.xlsx", 1),
+            "cash_flow": ("cashflow.xlsx", 1),
+            "analysis": ("analysis.xlsx", 1),
+            "documents": ("documents.xlsx", 1),
+            "pros_cons": ("prosandcons.xlsx", 1),
+
+            "financial_ratios": ("financial_ratios.xlsx", 0),
+            "market_cap": ("market_cap.xlsx", 0),
+            "peer_groups": ("peer_groups.xlsx", 0),
+            "sectors": ("sectors.xlsx", 0),
+            "stock_prices": ("stock_prices.xlsx", 0),
         }
 
         datasets = {}
 
-        for name, file in files.items():
+        for name, (file, header) in files.items():
             try:
-                datasets[name] = self.load_excel(file)
+                datasets[name] = self.load_excel(file, header=header)
             except Exception as e:
                 logger.error(e)
 
