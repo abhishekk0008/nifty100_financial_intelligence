@@ -1,0 +1,4 @@
+company_id,year_count,table,severity
+JIOFIN,3,profit_loss,MEDIUM
+JIOFIN,3,balance_sheet,MEDIUM
+JIOFIN,2,cash_flow,MEDIUM
