@@ -35,9 +35,14 @@ def return_on_assets(net_profit, total_assets):
 
 
 def debt_to_equity(borrowings, equity_capital, reserves):
+    if borrowings == 0:
+        return 0.0
+
     equity = equity_capital + reserves
+
     if equity <= 0:
         return None
+
     return round(borrowings / equity, 2)
 
 
