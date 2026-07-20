@@ -1,0 +1,6 @@
+filters:
+  roe_min: 15
+  de_max: 1
+  opm_min: 10
+  icr_min: 2
+  asset_turnover_min: 0.5
