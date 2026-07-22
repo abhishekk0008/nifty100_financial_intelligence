@@ -139,16 +139,17 @@ class PeerRanking:
             .reset_index(drop=True)
         )
 
-              # Restore company_id after groupby/apply
+        # Restore company_id after groupby/apply
         if "company_id" not in df.columns:
 
             df = df.merge(
-                self.df[["id", "company_id"]],
+                self.df[
+                    ["id", "company_id"]
+                ].drop_duplicates("id"),
                 on="id",
-                how="left"
+                how="left",
             )
 
-        
         # -------------------------------------------------
 
         metrics = [
@@ -260,7 +261,14 @@ class PeerRanking:
 
         final = (
             final
-            .drop_duplicates()
+            .drop_duplicates(
+                subset=[
+                    "company_id",
+                    "year",
+                    "metric",
+                    "peer_group_name",
+                ]
+            )
             .sort_values(
                 [
                     "peer_group_name",
