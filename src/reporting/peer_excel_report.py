@@ -86,13 +86,22 @@ class PeerComparisonReport:
         # Convert Long -> Wide
         # -----------------------------------------
 
+        # year is per-metric, not per-company, so it must NOT be part of
+        # the pivot index (it fragments a single company into multiple
+        # rows whenever metrics have different latest years).
+        # Capture the most recent year per company separately instead.
+        latest_year = (
+            df.groupby("company_id")["year"]
+            .max()
+            .rename("latest_year")
+        )
+
         wide = (
         df.pivot(
         index=[
             "company_id",
             "company_name",
             "peer_group_name",
-            "year",
         ],
         columns="metric",
         values=[
@@ -110,6 +119,7 @@ class PeerComparisonReport:
 
         wide = (
             wide.reset_index()
+            .merge(latest_year, on="company_id", how="left")
             .sort_values("company_id")
             .reset_index(drop=True)
         )

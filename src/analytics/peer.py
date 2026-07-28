@@ -4,6 +4,33 @@ import numpy as np
 
 class PeerRanking:
 
+    REVERSED_METRICS = {
+        "debt_to_equity",
+        "total_debt_cr",
+    }
+
+    METRICS = [
+        "asset_turnover",
+        "book_value_per_share",
+        "capex_cr",
+        "cash_from_operations_cr",
+        "compounded_profit_growth",
+        "compounded_sales_growth",
+        "debt_to_equity",
+        "dividend_payout_ratio_pct",
+        "earnings_per_share",
+        "eps_cagr_5y",
+        "free_cash_flow_cr",
+        "interest_coverage",
+        "net_profit_margin_pct",
+        "operating_profit_margin_pct",
+        "return_on_equity_pct",
+        "roce_percentage",
+        "roe",
+        "stock_price_cagr",
+        "total_debt_cr",
+    ]
+
     def __init__(
         self,
         ratios_df,
@@ -16,12 +43,9 @@ class PeerRanking:
         self.analysis_df = analysis_df.copy()
         self.companies_df = companies_df.copy()
 
-    def calculate(self):
+    def _build_peer_mapping(self):
 
-        # -----------------------------
-        # Peer group mapping
-        # -----------------------------
-        peer = (
+        return (
             self.peer_df[
                 [
                     "company_id",
@@ -31,10 +55,9 @@ class PeerRanking:
             .drop_duplicates(subset="company_id")
         )
 
-        # -----------------------------
-        # ROCE from companies sheet
-        # -----------------------------
-        companies = (
+    def _build_companies(self):
+
+        return (
             self.companies_df[
                 [
                     "id",
@@ -48,9 +71,91 @@ class PeerRanking:
             )
         )
 
-        # -----------------------------
-        # Merge datasets
-        # -----------------------------
+    def _build_analysis(self):
+
+        analysis = self.analysis_df.copy()
+
+        analysis = analysis[
+            analysis["roe"]
+            .astype(str)
+            .str.contains("10 Years", na=False)
+        ].copy()
+
+        for col in [
+            "compounded_sales_growth",
+            "compounded_profit_growth",
+            "stock_price_cagr",
+            "roe",
+        ]:
+            analysis[col] = (
+                analysis[col]
+                .astype(str)
+                .str.extract(r"(-?\d+\.?\d*)%")[0]
+                .astype(float)
+            )
+
+        analysis = analysis.drop_duplicates(subset="company_id")
+
+        return analysis[
+            [
+                "company_id",
+                "compounded_sales_growth",
+                "compounded_profit_growth",
+                "stock_price_cagr",
+                "roe",
+            ]
+        ]
+
+    def _calculate_eps_cagr(self, group):
+
+        group = group.copy()
+
+        group["year_num"] = (
+            group["year"]
+            .astype(str)
+            .str.extract(r"(\d{4})")[0]
+            .astype(int)
+        )
+
+        group = group.sort_values("year_num")
+
+        group["eps_cagr_5y"] = np.nan
+
+        for idx, row in group.iterrows():
+
+            current_year = row["year_num"]
+            current_eps = row["earnings_per_share"]
+
+            previous = group[
+                group["year_num"] == current_year - 5
+            ]
+
+            if previous.empty:
+                continue
+
+            old_eps = previous.iloc[0]["earnings_per_share"]
+
+            if (
+                pd.notna(current_eps)
+                and pd.notna(old_eps)
+                and current_eps > 0
+                and old_eps > 0
+            ):
+
+                cagr = (
+                    (current_eps / old_eps) ** (1 / 5) - 1
+                ) * 100
+
+                group.loc[idx, "eps_cagr_5y"] = round(cagr, 2)
+
+        return group.drop(columns="year_num")
+
+    def _merge_all(self):
+
+        peer = self._build_peer_mapping()
+        companies = self._build_companies()
+        analysis = self._build_analysis()
+
         df = (
             self.df
             .merge(
@@ -59,15 +164,7 @@ class PeerRanking:
                 how="left",
             )
             .merge(
-                self.analysis_df[
-                    [
-                        "company_id",
-                        "compounded_sales_growth",
-                        "compounded_profit_growth",
-                        "stock_price_cagr",
-                        "roe",
-                    ]
-                ],
+                analysis,
                 on="company_id",
                 how="left",
             )
@@ -82,66 +179,60 @@ class PeerRanking:
             "No peer group assigned"
         )
 
-        # -------------------------------------------------
-        # EPS CAGR 5 Years
-        # -------------------------------------------------
+        return df
 
-        def calculate_eps_cagr(group):
+    def _rank_metric(self, df, metric):
 
-            group = group.copy()
+        temp = df.dropna(
+            subset=[
+                metric,
+                "peer_group_name",
+                "year",
+                "company_id",
+            ]
+        ).copy()
 
-            group["year_num"] = (
-                group["year"]
-                .astype(str)
-                .str.extract(r"(\d{4})")[0]
-                .astype(int)
-            )
+        if temp.empty:
+            return None
 
-            group = group.sort_values("year_num")
+        ranks = temp.groupby(
+            [
+                "peer_group_name",
+                "year",
+            ]
+        )[metric].rank(
+            pct=True,
+            method="average",
+        )
 
-            group["eps_cagr_5y"] = np.nan
+        if metric in self.REVERSED_METRICS:
+            ranks = 1 - ranks
 
-            for idx, row in group.iterrows():
+        temp["percentile_rank"] = ranks * 100
+        temp["metric"] = metric
+        temp["value"] = temp[metric]
 
-                current_year = row["year_num"]
-                current_eps = row["earnings_per_share"]
+        return temp[
+            [
+                "company_id",
+                "peer_group_name",
+                "year",
+                "metric",
+                "value",
+                "percentile_rank",
+            ]
+        ]
 
-                previous = group[
-                    group["year_num"] == current_year - 5
-                ]
+    def calculate(self):
 
-                if previous.empty:
-                    continue
-
-                old_eps = previous.iloc[0]["earnings_per_share"]
-
-                if (
-                    pd.notna(current_eps)
-                    and pd.notna(old_eps)
-                    and current_eps > 0
-                    and old_eps > 0
-                ):
-
-                    cagr = (
-                        (
-                            current_eps / old_eps
-                        ) ** (1 / 5)
-                        - 1
-                    ) * 100
-
-                    group.loc[idx, "eps_cagr_5y"] = round(
-                        cagr,
-                        2,
-                    )
-
-            return group.drop(columns="year_num")
+        df = self._merge_all()
 
         df = (
             df.groupby(
                 "company_id",
                 group_keys=False,
             )
-            .apply(calculate_eps_cagr)
+            .apply(self._calculate_eps_cagr)
             .reset_index(drop=True)
         )
 
@@ -155,95 +246,19 @@ class PeerRanking:
                 how="left",
             )
 
-        metrics = [
-            "return_on_equity_pct",
-            "roe",
-            "roce_percentage",
-            "net_profit_margin_pct",
-            "operating_profit_margin_pct",
-            "debt_to_equity",
-            "interest_coverage",
-            "asset_turnover",
-            "free_cash_flow_cr",
-            "cash_from_operations_cr",
-            "capex_cr",
-            "total_debt_cr",
-            "earnings_per_share",
-            "book_value_per_share",
-            "dividend_payout_ratio_pct",
-            "compounded_sales_growth",
-            "compounded_profit_growth",
-            "stock_price_cagr",
-            "eps_cagr_5y",
-        ]
-
         results = []
 
-        for metric in metrics:
+        for metric in self.METRICS:
 
-            temp = df.copy()
-
-            if metric not in temp.columns:
+            if metric not in df.columns:
                 continue
 
-            temp = temp.dropna(
-                subset=[
-                    metric,
-                    "peer_group_name",
-                    "year",
-                    "company_id",
-                ]
-            )
+            ranked = self._rank_metric(df, metric)
 
-            if temp.empty:
-                continue
+            if ranked is not None:
+                results.append(ranked)
 
-            if metric == "debt_to_equity":
-
-                temp["percentile_rank"] = (
-                    1
-                    - temp.groupby(
-                        [
-                            "peer_group_name",
-                            "year",
-                        ]
-                    )[metric].rank(
-                        pct=True,
-                        method="average",
-                    )
-                ) * 100
-
-            else:
-
-                temp["percentile_rank"] = (
-                    temp.groupby(
-                        [
-                            "peer_group_name",
-                            "year",
-                        ]
-                    )[metric].rank(
-                        pct=True,
-                        method="average",
-                    )
-                ) * 100
-
-            temp["metric"] = metric
-            temp["value"] = temp[metric]
-
-            results.append(
-                temp[
-                    [
-                        "company_id",
-                        "peer_group_name",
-                        "year",
-                        "metric",
-                        "value",
-                        "percentile_rank",
-                    ]
-                ]
-            )
-
-        if len(results) == 0:
+        if not results:
 
             return pd.DataFrame(
                 columns=[
@@ -288,9 +303,6 @@ class PeerRanking:
             .reset_index(drop=True)
         )
 
-        # -------------------------------------------------
-        # Keep only latest year for each company + metric
-        # -------------------------------------------------
         final["year_num"] = (
             final["year"]
             .astype(str)
