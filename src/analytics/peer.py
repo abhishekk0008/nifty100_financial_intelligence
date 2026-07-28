@@ -41,7 +41,11 @@ class PeerRanking:
                     "roce_percentage",
                 ]
             ]
-            .rename(columns={"id": "company_id"})
+            .rename(
+                columns={
+                    "id": "company_id",
+                }
+            )
         )
 
         # -----------------------------
@@ -60,6 +64,8 @@ class PeerRanking:
                         "company_id",
                         "compounded_sales_growth",
                         "compounded_profit_growth",
+                        "stock_price_cagr",
+                        "roe",
                     ]
                 ],
                 on="company_id",
@@ -139,7 +145,6 @@ class PeerRanking:
             .reset_index(drop=True)
         )
 
-        # Restore company_id after groupby/apply
         if "company_id" not in df.columns:
 
             df = df.merge(
@@ -150,19 +155,26 @@ class PeerRanking:
                 how="left",
             )
 
-        # -------------------------------------------------
-
         metrics = [
             "return_on_equity_pct",
+            "roe",
             "roce_percentage",
             "net_profit_margin_pct",
+            "operating_profit_margin_pct",
             "debt_to_equity",
-            "free_cash_flow_cr",
-            "compounded_profit_growth",
-            "compounded_sales_growth",
-            "eps_cagr_5y",
             "interest_coverage",
             "asset_turnover",
+            "free_cash_flow_cr",
+            "cash_from_operations_cr",
+            "capex_cr",
+            "total_debt_cr",
+            "earnings_per_share",
+            "book_value_per_share",
+            "dividend_payout_ratio_pct",
+            "compounded_sales_growth",
+            "compounded_profit_growth",
+            "stock_price_cagr",
+            "eps_cagr_5y",
         ]
 
         results = []
@@ -171,11 +183,9 @@ class PeerRanking:
 
             temp = df.copy()
 
-            # Skip if metric doesn't exist
             if metric not in temp.columns:
                 continue
 
-            # Remove rows where metric is missing
             temp = temp.dropna(
                 subset=[
                     metric,
@@ -221,7 +231,6 @@ class PeerRanking:
             temp["value"] = temp[metric]
 
             results.append(
-
                 temp[
                     [
                         "company_id",
@@ -232,7 +241,6 @@ class PeerRanking:
                         "percentile_rank",
                     ]
                 ]
-
             )
 
         if len(results) == 0:
@@ -277,6 +285,29 @@ class PeerRanking:
                     "metric",
                 ]
             )
+            .reset_index(drop=True)
+        )
+
+        # -------------------------------------------------
+        # Keep only latest year for each company + metric
+        # -------------------------------------------------
+        final["year_num"] = (
+            final["year"]
+            .astype(str)
+            .str.extract(r"(\d{4})")[0]
+            .astype(int)
+        )
+
+        final = (
+            final.sort_values(
+                ["company_id", "metric", "year_num"]
+            )
+            .groupby(
+                ["company_id", "metric"],
+                group_keys=False,
+            )
+            .tail(1)
+            .drop(columns="year_num")
             .reset_index(drop=True)
         )
 
