@@ -42,6 +42,12 @@ def test_insufficient_years():
     assert flag == "INSUFFICIENT"
 
 
+def test_negative_years():
+    value, flag = cagr(100, 200, -5)
+    assert value is None
+    assert flag == "INSUFFICIENT"
+
+
 def test_positive_growth():
     value, flag = cagr(100, 150, 3)
     assert flag == "NORMAL"
