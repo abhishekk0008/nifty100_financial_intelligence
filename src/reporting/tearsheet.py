@@ -3117,47 +3117,156 @@ def validate_pdf(
 # ============================================================
 
 def run(
-    company_ids: list[str],
+    company_ids: list[str] | None = None,
 ) -> None:
-    """Generate tearsheets for requested companies."""
+    """
+    Day-34 batch tearsheet generation.
 
-    logger.info(
-        "Loading source datasets..."
-    )
+    If company_ids is None:
+        Generate tearsheets for all companies available
+        in companies.xlsx.
+
+    Companies with fewer than 3 distinct P&L financial
+    years are skipped and written to:
+        output/skipped_tearsheets.csv
+    """
+
+    logger.info("Loading source datasets...")
 
     companies = load_companies()
-
     pnl = load_pnl()
-
-    balance_sheet = (
-        load_balance_sheet()
-    )
-
-    cashflow = (
-        load_cashflow()
-    )
-
-    ratios = (
-        load_financial_ratios()
-    )
-
-    capital_allocation = (
-        load_capital_allocation()
-    )
-
-    pros_cons = (
-        load_pros_cons()
-    )
+    balance_sheet = load_balance_sheet()
+    cashflow = load_cashflow()
+    ratios = load_financial_ratios()
+    capital_allocation = load_capital_allocation()
+    pros_cons = load_pros_cons()
 
     logger.info(
         "Companies loaded: %s",
         len(companies),
     )
 
+    # --------------------------------------------------------
+    # Determine companies to process
+    # --------------------------------------------------------
+
+    if company_ids is None:
+
+        company_ids = (
+            companies["company_id"]
+            .dropna()
+            .astype(str)
+            .map(normalize_company_id)
+            .dropna()
+            .unique()
+            .tolist()
+        )
+
+    else:
+
+        normalized_ids = []
+
+        for company_id in company_ids:
+
+            normalized = normalize_company_id(
+                company_id
+            )
+
+            if normalized:
+                normalized_ids.append(normalized)
+
+        company_ids = normalized_ids
+
+    logger.info(
+        "Companies requested for batch generation: %s",
+        len(company_ids),
+    )
+
+    # --------------------------------------------------------
+    # Minimum-year validation
+    # --------------------------------------------------------
+
+    def has_minimum_years(
+        company_id: str,
+    ) -> bool:
+        """
+        Return True when the company has at least
+        3 distinct financial years in P&L data.
+        """
+
+        company_pnl = pnl[
+            pnl["company_id"]
+            .astype(str)
+            .str.upper()
+            .eq(company_id.upper())
+        ]
+
+        if company_pnl.empty:
+
+            logger.warning(
+                "%s skipped: no P&L data found",
+                company_id,
+            )
+
+            return False
+
+        years = (
+            company_pnl["year"]
+            .dropna()
+            .astype(str)
+            .str.strip()
+            .unique()
+        )
+
+        year_count = len(years)
+
+        logger.info(
+            "%s: %s years of P&L data",
+            company_id,
+            year_count,
+        )
+
+        return year_count >= 3
+
+    # --------------------------------------------------------
+    # Output directories
+    # --------------------------------------------------------
+
+    REPORT_DIR.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
+
+    skipped_file = (
+        ROOT_DIR
+        / "output"
+        / "skipped_tearsheets.csv"
+    )
+
+    skipped_file.parent.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
+
+    # --------------------------------------------------------
+    # Batch generation
+    # --------------------------------------------------------
+
     successful = 0
     failed = 0
+    skipped = []
 
-    for company_id in company_ids:
+    total = len(company_ids)
+
+    logger.info(
+        "Starting batch tearsheet generation for %s companies",
+        total,
+    )
+
+    for index, company_id in enumerate(
+        company_ids,
+        start=1,
+    ):
 
         company_id = normalize_company_id(
             company_id
@@ -3165,6 +3274,39 @@ def run(
 
         if not company_id:
             continue
+
+        logger.info(
+            "[%s/%s] Processing %s",
+            index,
+            total,
+            company_id,
+        )
+
+        # ----------------------------------------------------
+        # Minimum 3 years check
+        # ----------------------------------------------------
+
+        if not has_minimum_years(company_id):
+
+            skipped.append(
+                {
+                    "ticker": company_id,
+                    "reason": "Fewer than 3 years of P&L data",
+                }
+            )
+
+            logger.warning(
+                "[%s/%s] Skipping %s: fewer than 3 years of data",
+                index,
+                total,
+                company_id,
+            )
+
+            continue
+
+        # ----------------------------------------------------
+        # Generate tearsheet
+        # ----------------------------------------------------
 
         try:
 
@@ -3179,41 +3321,104 @@ def run(
                 pros_cons,
             )
 
+            # ------------------------------------------------
+            # Validate generated PDF
+            # ------------------------------------------------
+
             if validate_pdf(output):
 
                 successful += 1
 
+                logger.info(
+                    "[%s/%s] SUCCESS: %s",
+                    index,
+                    total,
+                    output,
+                )
+
             else:
 
                 failed += 1
+
+                logger.error(
+                    "[%s/%s] PDF validation failed: %s",
+                    index,
+                    total,
+                    company_id,
+                )
 
         except Exception as exc:
 
             failed += 1
 
             logger.exception(
-                "Failed to generate %s: %s",
+                "[%s/%s] Failed to generate %s: %s",
+                index,
+                total,
                 company_id,
                 exc,
             )
 
+    # --------------------------------------------------------
+    # Save skipped companies
+    # --------------------------------------------------------
+
+    skipped_df = pd.DataFrame(
+        skipped,
+        columns=[
+            "ticker",
+            "reason",
+        ],
+    )
+
+    skipped_df.to_csv(
+        skipped_file,
+        index=False,
+    )
+
+    logger.info(
+        "Skipped-tearsheet report saved: %s",
+        skipped_file,
+    )
+
+    # --------------------------------------------------------
+    # Final summary
+    # --------------------------------------------------------
+
     print()
-    print("=" * 60)
-    print("DAY 33 TEARSHEET TEST")
-    print("=" * 60)
+    print("=" * 70)
+    print("DAY 34 — BATCH TEARSHEET GENERATION")
+    print("=" * 70)
+
     print(
         f"Requested : {len(company_ids)}"
     )
+
     print(
         f"Successful: {successful}"
     )
+
+    print(
+        f"Skipped   : {len(skipped)}"
+    )
+
     print(
         f"Failed    : {failed}"
     )
+
+    print(
+        f"Expected PDFs: {len(company_ids) - len(skipped)}"
+    )
+
     print(
         f"Output    : {REPORT_DIR}"
     )
-    print("=" * 60)
+
+    print(
+        f"Skipped CSV: {skipped_file}"
+    )
+
+    print("=" * 70)
 
 
 # ============================================================
@@ -3221,26 +3426,40 @@ def run(
 # ============================================================
 
 def main() -> None:
-    """CLI entry point."""
+    """
+    CLI entry point.
+
+    Usage:
+
+        python src\\reporting\\tearsheet.py
+
+    Generates tearsheets for all companies.
+
+    Or:
+
+        python src\\reporting\\tearsheet.py TCS HDFCBANK RELIANCE
+
+    Generates only the requested companies.
+    """
 
     if len(sys.argv) > 1:
 
         company_ids = [
-            normalize_company_id(
-                value
-            )
+            normalize_company_id(value)
             for value in sys.argv[1:]
+        ]
+
+        company_ids = [
+            value
+            for value in company_ids
+            if value
         ]
 
     else:
 
-        company_ids = (
-            TEST_COMPANIES.copy()
-        )
+        company_ids = None
 
-    run(
-        company_ids
-    )
+    run(company_ids)
 
 
 if __name__ == "__main__":
