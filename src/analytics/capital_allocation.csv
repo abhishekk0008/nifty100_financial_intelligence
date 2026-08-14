@@ -1,0 +1,524 @@
+from pathlib import Path
+import logging
+
+import numpy as np
+import pandas as pd
+
+
+# ============================================================
+# CONFIGURATION
+# ============================================================
+
+BASE_DIR = Path(__file__).resolve().parents[2]
+
+RAW_DIR = BASE_DIR / "data" / "raw"
+OUTPUT_DIR = BASE_DIR / "reports"
+
+CASHFLOW_FILE = RAW_DIR / "cashflow.xlsx"
+PNL_FILE = RAW_DIR / "profitandloss.xlsx"
+OUTPUT_FILE = OUTPUT_DIR / "capital_allocation.csv"
+
+
+# ============================================================
+# LOGGING
+# ============================================================
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s | %(levelname)s | %(message)s",
+)
+
+logger = logging.getLogger(__name__)
+
+
+# ============================================================
+# HELPERS
+# ============================================================
+
+def clean_columns(df: pd.DataFrame) -> pd.DataFrame:
+    """Normalize dataframe column names."""
+    df = df.copy()
+
+    df.columns = (
+        df.columns
+        .astype(str)
+        .str.strip()
+        .str.lower()
+        .str.replace(" ", "_", regex=False)
+    )
+
+    return df
+
+
+def normalize_company_id(value):
+    """Normalize company IDs and fix known source spelling."""
+    if pd.isna(value):
+        return np.nan
+
+    company_id = str(value).strip().upper()
+
+    # Source cash-flow file contains AGTL while master uses ATGL.
+    if company_id == "AGTL":
+        return "ATGL"
+
+    return company_id
+
+
+def normalize_year(value):
+    """Normalize year strings."""
+    if pd.isna(value):
+        return np.nan
+
+    value = str(value).strip()
+
+    # Fix malformed SepYYYY values if present.
+    if value.startswith("Sep") and not value.startswith("Sep "):
+        value = value.replace("Sep", "Sep ", 1)
+
+    return value
+
+
+# ============================================================
+# DATA LOADING
+# ============================================================
+
+def load_data():
+    logger.info("Loading cashflow.xlsx")
+
+    cashflow = pd.read_excel(
+        CASHFLOW_FILE,
+        header=1,
+    )
+
+    cashflow = clean_columns(cashflow)
+
+    logger.info(
+        "cashflow.xlsx loaded successfully. Shape: %s",
+        cashflow.shape,
+    )
+
+    logger.info("Loading profitandloss.xlsx")
+
+    pnl = pd.read_excel(
+        PNL_FILE,
+        header=1,
+    )
+
+    pnl = clean_columns(pnl)
+
+    logger.info(
+        "profitandloss.xlsx loaded successfully. Shape: %s",
+        pnl.shape,
+    )
+
+    return cashflow, pnl
+
+
+# ============================================================
+# CASH FLOW PREPARATION
+# ============================================================
+
+def prepare_cashflow(cashflow: pd.DataFrame) -> pd.DataFrame:
+    required_columns = [
+        "company_id",
+        "year",
+        "operating_activity",
+        "investing_activity",
+        "financing_activity",
+    ]
+
+    missing = [
+        col for col in required_columns
+        if col not in cashflow.columns
+    ]
+
+    if missing:
+        raise ValueError(
+            f"Missing cashflow columns: {missing}"
+        )
+
+    df = cashflow.copy()
+
+    df["company_id"] = df["company_id"].apply(
+        normalize_company_id
+    )
+
+    df["year"] = df["year"].apply(
+        normalize_year
+    )
+
+    numeric_columns = [
+        "operating_activity",
+        "investing_activity",
+        "financing_activity",
+    ]
+
+    for col in numeric_columns:
+        df[col] = pd.to_numeric(
+            df[col],
+            errors="coerce",
+        )
+
+    # Free Cash Flow = CFO + CFI
+    #
+    # CFI is generally negative when cash is invested.
+    # Therefore:
+    #
+    # FCF = CFO + CFI
+    #
+    # Example:
+    # CFO = 100
+    # CFI = -40
+    # FCF = 60
+
+    df["free_cash_flow"] = (
+        df["operating_activity"]
+        + df["investing_activity"]
+    )
+
+    return df
+
+
+# ============================================================
+# P&L PREPARATION
+# ============================================================
+
+def prepare_pnl(pnl: pd.DataFrame) -> pd.DataFrame:
+    required_columns = [
+        "company_id",
+        "year",
+        "sales",
+        "net_profit",
+    ]
+
+    missing = [
+        col for col in required_columns
+        if col not in pnl.columns
+    ]
+
+    if missing:
+        raise ValueError(
+            f"Missing P&L columns: {missing}"
+        )
+
+    df = pnl.copy()
+
+    df["company_id"] = df["company_id"].apply(
+        normalize_company_id
+    )
+
+    df["year"] = df["year"].apply(
+        normalize_year
+    )
+
+    df["sales"] = pd.to_numeric(
+        df["sales"],
+        errors="coerce",
+    )
+
+    df["net_profit"] = pd.to_numeric(
+        df["net_profit"],
+        errors="coerce",
+    )
+
+    return df
+
+
+# ============================================================
+# METRIC CALCULATIONS
+# ============================================================
+
+def calculate_metrics(
+    cashflow: pd.DataFrame,
+    pnl: pd.DataFrame,
+) -> pd.DataFrame:
+
+    df = cashflow.merge(
+        pnl[
+            [
+                "company_id",
+                "year",
+                "sales",
+                "net_profit",
+            ]
+        ],
+        on=["company_id", "year"],
+        how="left",
+    )
+
+    # --------------------------------------------------------
+    # CFO Quality
+    # --------------------------------------------------------
+
+    df["cfo_quality"] = np.where(
+        df["net_profit"].notna()
+        & (df["net_profit"] != 0),
+        df["operating_activity"] / df["net_profit"],
+        np.nan,
+    )
+
+    def cfo_quality_label(value):
+        if pd.isna(value):
+            return np.nan
+
+        if value > 1.0:
+            return "High Quality"
+
+        if value >= 0.5:
+            return "Moderate"
+
+        return "Accrual Risk"
+
+    df["cfo_quality_label"] = df["cfo_quality"].apply(
+        cfo_quality_label
+    )
+
+    # --------------------------------------------------------
+    # CapEx Intensity
+    # --------------------------------------------------------
+
+    df["capex_intensity"] = np.where(
+        df["sales"].notna()
+        & (df["sales"] != 0),
+        (
+            abs(df["investing_activity"])
+            / df["sales"]
+        ) * 100,
+        np.nan,
+    )
+
+    def capex_label(value):
+        if pd.isna(value):
+            return np.nan
+
+        if value < 3:
+            return "Asset Light"
+
+        if value <= 8:
+            return "Moderate"
+
+        return "Capital Intensive"
+
+    df["capex_label"] = df["capex_intensity"].apply(
+        capex_label
+    )
+
+    # --------------------------------------------------------
+    # FCF Conversion
+    # --------------------------------------------------------
+
+    df["fcf_conversion"] = np.where(
+        df["net_profit"].notna()
+        & (df["net_profit"] != 0),
+        (
+            df["free_cash_flow"]
+            / df["net_profit"]
+        ) * 100,
+        np.nan,
+    )
+
+    # --------------------------------------------------------
+    # Cash-flow signs
+    # --------------------------------------------------------
+
+    df["cfo_sign"] = np.where(
+        df["operating_activity"] >= 0,
+        "+",
+        "-",
+    )
+
+    df["cfi_sign"] = np.where(
+        df["investing_activity"] >= 0,
+        "+",
+        "-",
+    )
+
+    df["cff_sign"] = np.where(
+        df["financing_activity"] >= 0,
+        "+",
+        "-",
+    )
+
+    # --------------------------------------------------------
+    # Pattern classification
+    # --------------------------------------------------------
+
+    def classify_pattern(row):
+        cfo = row["operating_activity"]
+        cfi = row["investing_activity"]
+        cff = row["financing_activity"]
+        sales = row["sales"]
+
+        if pd.isna(cfo) or pd.isna(cfi) or pd.isna(cff):
+            return "Mixed"
+
+        # Pre-Revenue
+        if pd.notna(sales) and sales <= 0 and cfo <= 0:
+            return "Pre-Revenue"
+
+        # Distress Signal
+        if cfo < 0 and cff > 0:
+            return "Distress Signal"
+
+        # Growth Funded by Debt
+        if cfo > 0 and cfi < 0 and cff > 0:
+            return "Growth Funded by Debt"
+
+        # Reinvestor
+        if cfo > 0 and cfi < 0 and cff <= 0:
+            return "Reinvestor"
+
+        # Cash Accumulator
+        if cfo > 0 and cfi >= 0 and cff >= 0:
+            return "Cash Accumulator"
+
+        # Liquidating Assets
+        if cfo >= 0 and cfi > 0 and cff < 0:
+            return "Liquidating Assets"
+
+        # Remaining combinations
+        return "Mixed"
+
+    df["pattern_label"] = df.apply(
+        classify_pattern,
+        axis=1,
+    )
+
+    return df
+
+
+# ============================================================
+# OUTPUT
+# ============================================================
+
+def create_output(df: pd.DataFrame) -> pd.DataFrame:
+
+    columns = [
+        "company_id",
+        "year",
+        "free_cash_flow",
+        "cfo_quality",
+        "cfo_quality_label",
+        "capex_intensity",
+        "capex_label",
+        "fcf_conversion",
+        "cfo_sign",
+        "cfi_sign",
+        "cff_sign",
+        "pattern_label",
+    ]
+
+    output = df[columns].copy()
+
+    output = output.sort_values(
+        ["company_id", "year"]
+    ).reset_index(drop=True)
+
+    return output
+
+
+def save_output(df: pd.DataFrame):
+
+    OUTPUT_DIR.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
+
+    df.to_csv(
+        OUTPUT_FILE,
+        index=False,
+    )
+
+    logger.info(
+        "Capital allocation report saved: %s",
+        OUTPUT_FILE,
+    )
+
+
+# ============================================================
+# VALIDATION
+# ============================================================
+
+def validate_output(df: pd.DataFrame):
+
+    print()
+    print("=" * 60)
+    print("CAPITAL ALLOCATION VALIDATION")
+    print("=" * 60)
+
+    print(
+        f"Companies: {df['company_id'].nunique()}"
+    )
+
+    print(
+        f"Rows: {len(df)}"
+    )
+
+    print()
+    print("Pattern distribution:")
+
+    print(
+        df["pattern_label"]
+        .value_counts(dropna=False)
+        .to_string()
+    )
+
+    print()
+    print("Rows per company:")
+
+    print(
+        df.groupby("company_id")
+        .size()
+        .value_counts()
+        .sort_index()
+        .to_string()
+    )
+
+    print()
+    print("Missing values:")
+
+    print(
+        df.isna()
+        .sum()
+        .to_string()
+    )
+
+
+# ============================================================
+# MAIN
+# ============================================================
+
+def main():
+
+    print("=" * 60)
+    print("CAPITAL ALLOCATION MODULE")
+    print("=" * 60)
+
+    cashflow, pnl = load_data()
+
+    cashflow = prepare_cashflow(cashflow)
+
+    pnl = prepare_pnl(pnl)
+
+    logger.info(
+        "Calculating capital allocation metrics"
+    )
+
+    df = calculate_metrics(
+        cashflow,
+        pnl,
+    )
+
+    output = create_output(df)
+
+    save_output(output)
+
+    validate_output(output)
+
+    print()
+    print("Output:")
+    print(OUTPUT_FILE)
+
+
+if __name__ == "__main__":
+    main()

@@ -1,383 +1,582 @@
 company_id,type,rule_id,text,confidence_pct
-ABB,pro,PRO_12,Growing asset base funded by internal accruals reflects self-sustaining growth,85.0
+ABB,pro,PRO_7,Strong interest coverage indicates limited financial stress from debt servicing,90.0
+ABB,pro,PRO_11,Revenue growing slower than profits indicates improving operating leverage and scale benefits,85.0
+ABB,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+ABB,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings compounding,79.99
+ABB,pro,PRO_6,Net profit compounding at above 20% over 5 years indicates strong earnings growth,72.54
 ABB,pro,PRO_5,Operating profit margin above 25% indicates strong pricing power and cost discipline,72.0
-ABB,pro,PRO_7,Very high interest coverage ratio reflects negligible financial stress from debt servicing,90.0
-ABB,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings quality and compounding,72.61
-ADANIENSOL,con,CON_10,Return on capital employed below 10% suggests the business is not generating sufficient returns on invested capital,72.0
-ADANIENSOL,con,CON_11,Net debt exceeding 3 times EBITDA is a high leverage ratio and limits financial flexibility,87.7
-ADANIENSOL,con,CON_3,Operating margins declining for 3 consecutive years suggest pricing or cost pressure,90.0
-ADANIENSOL,con,CON_6,Interest coverage ratio below 1.5x indicates the company is at risk of not meeting its debt obligations,79.42
-ADANIENSOL,con,CON_8,Rising debt-to-equity ratio over 3 years suggests increasing financial leverage risk,80.0
-ADANIENSOL,pro,PRO_11,Revenue growing slower than profits shows improving operating leverage and scale benefits,85.0
-ADANIENT,con,CON_11,Net debt exceeding 3 times EBITDA is a high leverage ratio and limits financial flexibility,87.91
-ADANIENT,con,CON_8,Rising debt-to-equity ratio over 3 years suggests increasing financial leverage risk,80.0
-ADANIENT,pro,PRO_4,Revenue growing at above 15% CAGR over 5 years reflects strong business momentum,77.42
-ADANIENT,pro,PRO_6,Net profit compounding at above 20% over 5 years creates significant shareholder value,95.0
-ADANIENT,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings quality and compounding,95.0
-ADANIGREEN,con,CON_1,Debt-to-equity ratio of 6.38 is elevated for a non-financial company and warrants monitoring,95.0
-ADANIGREEN,con,CON_11,Net debt exceeding 3 times EBITDA is a high leverage ratio and limits financial flexibility,98.0
-ADANIGREEN,con,CON_6,Interest coverage ratio below 1.5x indicates the company is at risk of not meeting its debt obligations,77.33
-ADANIGREEN,con,CON_8,Rising debt-to-equity ratio over 3 years suggests increasing financial leverage risk,80.0
+ABB,con,FALLBACK_CON_REVENUE,Revenue CAGR of 9.72% indicates relatively modest historical top-line growth,70.0
+ADANIENSOL,pro,PRO_4,Revenue growing at above 15% CAGR over 5 years reflects strong business momentum,75.7
+ADANIENSOL,con,CON_3,Operating margins declining for consecutive years suggest pricing or cost pressure,90.0
+ADANIENSOL,con,CON_8,Rising borrowings over consecutive periods suggest increasing financial leverage risk,90.0
+ADANIENSOL,con,CON_1,Return on equity below 10% indicates relatively weak shareholder capital efficiency,85.0
+ADANIENSOL,con,CON_10,Return on capital employed below 10% suggests weak returns on invested capital,85.0
+ADANIENSOL,con,CON_5,Net debt exceeding 3 times EBITDA indicates high leverage and reduced financial flexibility,81.35
+ADANIENT,pro,PRO_6,Net profit compounding at above 20% over 5 years indicates strong earnings growth,95.0
+ADANIENT,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings compounding,95.0
+ADANIENT,pro,PRO_11,Revenue growing slower than profits indicates improving operating leverage and scale benefits,85.0
+ADANIENT,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+ADANIENT,pro,PRO_4,Revenue growing at above 15% CAGR over 5 years reflects strong business momentum,78.03
+ADANIENT,con,CON_2,Negative recent free cash flow indicates pressure on internally generated cash,90.0
+ADANIENT,con,CON_8,Rising borrowings over consecutive periods suggest increasing financial leverage risk,90.0
+ADANIENT,con,CON_5,Net debt exceeding 3 times EBITDA indicates high leverage and reduced financial flexibility,81.45
 ADANIGREEN,pro,PRO_4,Revenue growing at above 15% CAGR over 5 years reflects strong business momentum,95.0
 ADANIGREEN,pro,PRO_5,Operating profit margin above 25% indicates strong pricing power and cost discipline,95.0
-ADANIPORTS,pro,PRO_12,Growing asset base funded by internal accruals reflects self-sustaining growth,85.0
+ADANIGREEN,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+ADANIGREEN,con,CON_4,Debt-to-equity above 2x indicates elevated financial leverage and balance-sheet risk,91.88
+ADANIGREEN,con,CON_2,Negative recent free cash flow indicates pressure on internally generated cash,90.0
+ADANIGREEN,con,CON_8,Rising borrowings over consecutive periods suggest increasing financial leverage risk,90.0
+ADANIGREEN,con,CON_5,Net debt exceeding 3 times EBITDA indicates high leverage and reduced financial flexibility,88.88
+ADANIGREEN,con,CON_6,Interest coverage below 1.5x indicates elevated risk in meeting debt-servicing obligations,76.66
 ADANIPORTS,pro,PRO_5,Operating profit margin above 25% indicates strong pricing power and cost discipline,95.0
-ADANIPOWER,pro,PRO_12,Growing asset base funded by internal accruals reflects self-sustaining growth,85.0
-ADANIPOWER,pro,PRO_2,Strong free cash flow generation over 5 years signals healthy business fundamentals,95.0
-ADANIPOWER,pro,PRO_4,Revenue growing at above 15% CAGR over 5 years reflects strong business momentum,71.21
+ADANIPORTS,pro,PRO_11,Revenue growing slower than profits indicates improving operating leverage and scale benefits,85.0
+ADANIPORTS,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+ADANIPORTS,con,FALLBACK_CON_ROCE,Return on capital employed of 12.90% leaves room for improvement in capital efficiency,70.0
+ADANIPOWER,pro,PRO_2,Strong free cash flow generation over 5 years signals healthy internal cash generation,95.0
 ADANIPOWER,pro,PRO_5,Operating profit margin above 25% indicates strong pricing power and cost discipline,95.0
-AMBUJACEM,con,CON_12,Revenue growing at below 5% over 5 years lags inflation and suggests limited business momentum,78.24
-AMBUJACEM,con,CON_5,Revenue contraction over 2 consecutive years indicates demand weakness or market share loss,90.0
-AMBUJACEM,con,CON_8,Rising debt-to-equity ratio over 3 years suggests increasing financial leverage risk,80.0
-AMBUJACEM,pro,PRO_7,Very high interest coverage ratio reflects negligible financial stress from debt servicing,90.0
-APOLLOHOSP,con,CON_8,Rising debt-to-equity ratio over 3 years suggests increasing financial leverage risk,80.0
-APOLLOHOSP,pro,PRO_2,Strong free cash flow generation over 5 years signals healthy business fundamentals,95.0
-APOLLOHOSP,pro,PRO_6,Net profit compounding at above 20% over 5 years creates significant shareholder value,74.74
-APOLLOHOSP,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings quality and compounding,77.45
-ASIANPAINT,pro,PRO_11,Revenue growing slower than profits shows improving operating leverage and scale benefits,85.0
-ASIANPAINT,pro,PRO_2,Strong free cash flow generation over 5 years signals healthy business fundamentals,95.0
-ASIANPAINT,pro,PRO_7,Very high interest coverage ratio reflects negligible financial stress from debt servicing,90.0
-ATGL,pro,PRO_11,Revenue growing slower than profits shows improving operating leverage and scale benefits,85.0
-ATGL,pro,PRO_4,Revenue growing at above 15% CAGR over 5 years reflects strong business momentum,81.63
-AXISBANK,con,CON_10,Return on capital employed below 10% suggests the business is not generating sufficient returns on invested capital,75.88
-AXISBANK,con,CON_11,Net debt exceeding 3 times EBITDA is a high leverage ratio and limits financial flexibility,98.0
-AXISBANK,con,CON_8,Rising debt-to-equity ratio over 3 years suggests increasing financial leverage risk,80.0
+ADANIPOWER,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+ADANIPOWER,pro,PRO_4,Revenue growing at above 15% CAGR over 5 years reflects strong business momentum,72.17
+ADANIPOWER,con,FALLBACK_CON_MARGIN,Current operating margin of 38.00% leaves scope for further improvement in operating efficiency,65.0
+AMBUJACEM,pro,PRO_7,Strong interest coverage indicates limited financial stress from debt servicing,90.0
+AMBUJACEM,pro,PRO_11,Revenue growing slower than profits indicates improving operating leverage and scale benefits,85.0
+AMBUJACEM,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+AMBUJACEM,con,CON_2,Negative recent free cash flow indicates pressure on internally generated cash,90.0
+AMBUJACEM,con,CON_8,Rising borrowings over consecutive periods suggest increasing financial leverage risk,90.0
+AMBUJACEM,con,CON_1,Return on equity below 10% indicates relatively weak shareholder capital efficiency,85.0
+APOLLOHOSP,pro,PRO_2,Strong free cash flow generation over 5 years signals healthy internal cash generation,95.0
+APOLLOHOSP,pro,PRO_6,Net profit compounding at above 20% over 5 years indicates strong earnings growth,94.2
+APOLLOHOSP,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings compounding,92.43
+APOLLOHOSP,pro,PRO_11,Revenue growing slower than profits indicates improving operating leverage and scale benefits,85.0
+APOLLOHOSP,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+APOLLOHOSP,con,CON_8,Rising borrowings over consecutive periods suggest increasing financial leverage risk,90.0
+ASIANPAINT,pro,PRO_2,Strong free cash flow generation over 5 years signals healthy internal cash generation,95.0
+ASIANPAINT,pro,PRO_7,Strong interest coverage indicates limited financial stress from debt servicing,90.0
+ASIANPAINT,pro,PRO_11,Revenue growing slower than profits indicates improving operating leverage and scale benefits,85.0
+ASIANPAINT,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+ASIANPAINT,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings compounding,78.96
+ASIANPAINT,pro,PRO_6,Net profit compounding at above 20% over 5 years indicates strong earnings growth,70.42
+ASIANPAINT,con,FALLBACK_CON_MARGIN,Current operating margin of 19.00% leaves scope for further improvement in operating efficiency,65.0
+ATGL,pro,PRO_11,Revenue growing slower than profits indicates improving operating leverage and scale benefits,85.0
+ATGL,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+ATGL,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings compounding,84.36
+ATGL,pro,PRO_4,Revenue growing at above 15% CAGR over 5 years reflects strong business momentum,82.18
+ATGL,pro,PRO_6,Net profit compounding at above 20% over 5 years indicates strong earnings growth,75.81
+ATGL,con,FALLBACK_CON_MARGIN,Current operating margin of 24.00% leaves scope for further improvement in operating efficiency,65.0
 AXISBANK,pro,PRO_5,Operating profit margin above 25% indicates strong pricing power and cost discipline,95.0
-AXISBANK,pro,PRO_6,Net profit compounding at above 20% over 5 years creates significant shareholder value,95.0
-AXISBANK,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings quality and compounding,95.0
-BAJAJ-AUTO,con,CON_8,Rising debt-to-equity ratio over 3 years suggests increasing financial leverage risk,80.0
-BAJAJ-AUTO,pro,PRO_11,Revenue growing slower than profits shows improving operating leverage and scale benefits,85.0
-BAJAJ-AUTO,pro,PRO_2,Strong free cash flow generation over 5 years signals healthy business fundamentals,95.0
-BAJAJ-AUTO,pro,PRO_7,Very high interest coverage ratio reflects negligible financial stress from debt servicing,90.0
-BAJAJFINSV,con,CON_11,Net debt exceeding 3 times EBITDA is a high leverage ratio and limits financial flexibility,98.0
-BAJAJFINSV,con,CON_2,Free cash flow negative for 3 consecutive years raises concern about cash generation quality,92.0
-BAJAJFINSV,con,CON_8,Rising debt-to-equity ratio over 3 years suggests increasing financial leverage risk,80.0
-BAJAJFINSV,pro,PRO_4,Revenue growing at above 15% CAGR over 5 years reflects strong business momentum,76.72
+AXISBANK,pro,PRO_6,Net profit compounding at above 20% over 5 years indicates strong earnings growth,95.0
+AXISBANK,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings compounding,95.0
+AXISBANK,pro,PRO_11,Revenue growing slower than profits indicates improving operating leverage and scale benefits,85.0
+AXISBANK,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+AXISBANK,con,CON_4,Debt-to-equity above 2x indicates elevated financial leverage and balance-sheet risk,95.0
+AXISBANK,con,CON_5,Net debt exceeding 3 times EBITDA indicates high leverage and reduced financial flexibility,95.0
+AXISBANK,con,CON_2,Negative recent free cash flow indicates pressure on internally generated cash,90.0
+AXISBANK,con,CON_8,Rising borrowings over consecutive periods suggest increasing financial leverage risk,90.0
+AXISBANK,con,CON_10,Return on capital employed below 10% suggests weak returns on invested capital,85.0
+BAJAJ-AUTO,pro,PRO_2,Strong free cash flow generation over 5 years signals healthy internal cash generation,95.0
+BAJAJ-AUTO,pro,PRO_7,Strong interest coverage indicates limited financial stress from debt servicing,90.0
+BAJAJ-AUTO,pro,PRO_11,Revenue growing slower than profits indicates improving operating leverage and scale benefits,85.0
+BAJAJ-AUTO,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+BAJAJ-AUTO,con,CON_8,Rising borrowings over consecutive periods suggest increasing financial leverage risk,90.0
 BAJAJFINSV,pro,PRO_5,Operating profit margin above 25% indicates strong pricing power and cost discipline,92.0
-BAJAJFINSV,pro,PRO_6,Net profit compounding at above 20% over 5 years creates significant shareholder value,73.72
-BAJAJFINSV,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings quality and compounding,78.01
-BAJAJHLDNG,pro,PRO_11,Revenue growing slower than profits shows improving operating leverage and scale benefits,85.0
-BAJAJHLDNG,pro,PRO_12,Growing asset base funded by internal accruals reflects self-sustaining growth,85.0
+BAJAJFINSV,pro,PRO_11,Revenue growing slower than profits indicates improving operating leverage and scale benefits,85.0
+BAJAJFINSV,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+BAJAJFINSV,pro,PRO_4,Revenue growing at above 15% CAGR over 5 years reflects strong business momentum,81.95
+BAJAJFINSV,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings compounding,78.38
+BAJAJFINSV,pro,PRO_6,Net profit compounding at above 20% over 5 years indicates strong earnings growth,75.62
+BAJAJFINSV,con,CON_5,Net debt exceeding 3 times EBITDA indicates high leverage and reduced financial flexibility,90.41
+BAJAJFINSV,con,CON_2,Negative recent free cash flow indicates pressure on internally generated cash,90.0
+BAJAJFINSV,con,CON_8,Rising borrowings over consecutive periods suggest increasing financial leverage risk,90.0
+BAJAJFINSV,con,CON_4,Debt-to-equity above 2x indicates elevated financial leverage and balance-sheet risk,83.32
 BAJAJHLDNG,pro,PRO_4,Revenue growing at above 15% CAGR over 5 years reflects strong business momentum,95.0
 BAJAJHLDNG,pro,PRO_5,Operating profit margin above 25% indicates strong pricing power and cost discipline,95.0
-BAJAJHLDNG,pro,PRO_7,Very high interest coverage ratio reflects negligible financial stress from debt servicing,90.0
-BAJAJHLDNG,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings quality and compounding,77.32
-BAJFINANCE,con,CON_11,Net debt exceeding 3 times EBITDA is a high leverage ratio and limits financial flexibility,98.0
-BAJFINANCE,con,CON_2,Free cash flow negative for 3 consecutive years raises concern about cash generation quality,92.0
-BAJFINANCE,con,CON_8,Rising debt-to-equity ratio over 3 years suggests increasing financial leverage risk,80.0
-BAJFINANCE,pro,PRO_4,Revenue growing at above 15% CAGR over 5 years reflects strong business momentum,77.5
+BAJAJHLDNG,pro,PRO_7,Strong interest coverage indicates limited financial stress from debt servicing,90.0
+BAJAJHLDNG,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+BAJAJHLDNG,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings compounding,75.95
+BAJAJHLDNG,con,FALLBACK_CON_ROCE,Return on capital employed of 13.10% leaves room for improvement in capital efficiency,70.0
 BAJFINANCE,pro,PRO_5,Operating profit margin above 25% indicates strong pricing power and cost discipline,95.0
-BAJFINANCE,pro,PRO_6,Net profit compounding at above 20% over 5 years creates significant shareholder value,75.9
-BAJFINANCE,pro,PRO_7,Very high interest coverage ratio reflects negligible financial stress from debt servicing,90.0
-BAJFINANCE,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings quality and compounding,82.46
-BANKBARODA,con,CON_10,Return on capital employed below 10% suggests the business is not generating sufficient returns on invested capital,77.34
-BANKBARODA,con,CON_11,Net debt exceeding 3 times EBITDA is a high leverage ratio and limits financial flexibility,98.0
-BANKBARODA,con,CON_8,Rising debt-to-equity ratio over 3 years suggests increasing financial leverage risk,80.0
+BAJFINANCE,pro,PRO_7,Strong interest coverage indicates limited financial stress from debt servicing,90.0
+BAJFINANCE,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings compounding,88.83
+BAJFINANCE,pro,PRO_4,Revenue growing at above 15% CAGR over 5 years reflects strong business momentum,88.71
+BAJFINANCE,pro,PRO_11,Revenue growing slower than profits indicates improving operating leverage and scale benefits,85.0
+BAJFINANCE,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+BAJFINANCE,pro,PRO_6,Net profit compounding at above 20% over 5 years indicates strong earnings growth,83.98
+BAJFINANCE,con,CON_5,Net debt exceeding 3 times EBITDA indicates high leverage and reduced financial flexibility,95.0
+BAJFINANCE,con,CON_2,Negative recent free cash flow indicates pressure on internally generated cash,90.0
+BAJFINANCE,con,CON_8,Rising borrowings over consecutive periods suggest increasing financial leverage risk,90.0
+BAJFINANCE,con,CON_4,Debt-to-equity above 2x indicates elevated financial leverage and balance-sheet risk,78.68
 BANKBARODA,pro,PRO_5,Operating profit margin above 25% indicates strong pricing power and cost discipline,95.0
-BANKBARODA,pro,PRO_6,Net profit compounding at above 20% over 5 years creates significant shareholder value,95.0
-BANKBARODA,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings quality and compounding,95.0
+BANKBARODA,pro,PRO_6,Net profit compounding at above 20% over 5 years indicates strong earnings growth,95.0
+BANKBARODA,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings compounding,95.0
+BANKBARODA,pro,PRO_11,Revenue growing slower than profits indicates improving operating leverage and scale benefits,85.0
+BANKBARODA,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+BANKBARODA,pro,PRO_4,Revenue growing at above 15% CAGR over 5 years reflects strong business momentum,74.95
+BANKBARODA,con,CON_4,Debt-to-equity above 2x indicates elevated financial leverage and balance-sheet risk,95.0
+BANKBARODA,con,CON_5,Net debt exceeding 3 times EBITDA indicates high leverage and reduced financial flexibility,95.0
+BANKBARODA,con,CON_2,Negative recent free cash flow indicates pressure on internally generated cash,90.0
+BANKBARODA,con,CON_8,Rising borrowings over consecutive periods suggest increasing financial leverage risk,90.0
+BANKBARODA,con,CON_10,Return on capital employed below 10% suggests weak returns on invested capital,85.0
+BEL,pro,PRO_7,Strong interest coverage indicates limited financial stress from debt servicing,90.0
+BEL,pro,PRO_11,Revenue growing slower than profits indicates improving operating leverage and scale benefits,85.0
+BEL,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
 BEL,pro,PRO_5,Operating profit margin above 25% indicates strong pricing power and cost discipline,72.0
-BEL,pro,PRO_7,Very high interest coverage ratio reflects negligible financial stress from debt servicing,90.0
-BHARTIARTL,con,CON_1,Debt-to-equity ratio of 2.59 is elevated for a non-financial company and warrants monitoring,74.72
-BHARTIARTL,pro,PRO_12,Growing asset base funded by internal accruals reflects self-sustaining growth,85.0
+BEL,con,CON_2,Negative recent free cash flow indicates pressure on internally generated cash,90.0
 BHARTIARTL,pro,PRO_5,Operating profit margin above 25% indicates strong pricing power and cost discipline,95.0
-BHEL,con,CON_10,Return on capital employed below 10% suggests the business is not generating sufficient returns on invested capital,83.44
-BHEL,con,CON_11,Net debt exceeding 3 times EBITDA is a high leverage ratio and limits financial flexibility,98.0
-BHEL,con,CON_12,Revenue growing at below 5% over 5 years lags inflation and suggests limited business momentum,78.67
-BHEL,con,CON_8,Rising debt-to-equity ratio over 3 years suggests increasing financial leverage risk,80.0
-BOSCHLTD,pro,PRO_12,Growing asset base funded by internal accruals reflects self-sustaining growth,85.0
-BOSCHLTD,pro,PRO_2,Strong free cash flow generation over 5 years signals healthy business fundamentals,95.0
-BOSCHLTD,pro,PRO_6,Net profit compounding at above 20% over 5 years creates significant shareholder value,79.36
-BOSCHLTD,pro,PRO_7,Very high interest coverage ratio reflects negligible financial stress from debt servicing,90.0
-BOSCHLTD,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings quality and compounding,86.95
-BPCL,con,CON_5,Revenue contraction over 2 consecutive years indicates demand weakness or market share loss,90.0
-BPCL,pro,PRO_12,Growing asset base funded by internal accruals reflects self-sustaining growth,85.0
-BPCL,pro,PRO_6,Net profit compounding at above 20% over 5 years creates significant shareholder value,85.35
-BPCL,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings quality and compounding,95.0
-BRITANNIA,pro,PRO_12,Growing asset base funded by internal accruals reflects self-sustaining growth,85.0
-BRITANNIA,pro,PRO_7,Very high interest coverage ratio reflects negligible financial stress from debt servicing,90.0
-CANBK,con,CON_10,Return on capital employed below 10% suggests the business is not generating sufficient returns on invested capital,76.74
-CANBK,con,CON_11,Net debt exceeding 3 times EBITDA is a high leverage ratio and limits financial flexibility,98.0
-CANBK,con,CON_8,Rising debt-to-equity ratio over 3 years suggests increasing financial leverage risk,80.0
-CANBK,pro,PRO_4,Revenue growing at above 15% CAGR over 5 years reflects strong business momentum,78.26
-CHOLAFIN,con,CON_11,Net debt exceeding 3 times EBITDA is a high leverage ratio and limits financial flexibility,98.0
-CHOLAFIN,con,CON_2,Free cash flow negative for 3 consecutive years raises concern about cash generation quality,92.0
-CHOLAFIN,con,CON_8,Rising debt-to-equity ratio over 3 years suggests increasing financial leverage risk,80.0
-CHOLAFIN,pro,PRO_4,Revenue growing at above 15% CAGR over 5 years reflects strong business momentum,81.8
+BHARTIARTL,pro,PRO_6,Net profit compounding at above 20% over 5 years indicates strong earnings growth,95.0
+BHARTIARTL,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings compounding,95.0
+BHARTIARTL,pro,PRO_11,Revenue growing slower than profits indicates improving operating leverage and scale benefits,85.0
+BHARTIARTL,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+BHARTIARTL,con,CON_4,Debt-to-equity above 2x indicates elevated financial leverage and balance-sheet risk,72.95
+BHEL,pro,FALLBACK_PRO_LEVERAGE,Debt-to-equity of 0.38x indicates relatively moderate balance-sheet leverage,70.0
+BHEL,con,CON_5,Net debt exceeding 3 times EBITDA indicates high leverage and reduced financial flexibility,91.13
+BHEL,con,CON_2,Negative recent free cash flow indicates pressure on internally generated cash,90.0
+BHEL,con,CON_8,Rising borrowings over consecutive periods suggest increasing financial leverage risk,90.0
+BHEL,con,CON_1,Return on equity below 10% indicates relatively weak shareholder capital efficiency,85.0
+BHEL,con,CON_10,Return on capital employed below 10% suggests weak returns on invested capital,85.0
+BHEL,con,CON_9,Operating profit margin below 10% indicates limited operating profitability,80.0
+BHEL,con,CON_6,Interest coverage below 1.5x indicates elevated risk in meeting debt-servicing obligations,77.07
+BOSCHLTD,pro,PRO_2,Strong free cash flow generation over 5 years signals healthy internal cash generation,95.0
+BOSCHLTD,pro,PRO_7,Strong interest coverage indicates limited financial stress from debt servicing,90.0
+BOSCHLTD,pro,PRO_11,Revenue growing slower than profits indicates improving operating leverage and scale benefits,85.0
+BOSCHLTD,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+BOSCHLTD,con,FALLBACK_CON_REVENUE,Revenue CAGR of 6.72% indicates relatively modest historical top-line growth,70.0
+BPCL,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings compounding,89.59
+BPCL,pro,PRO_11,Revenue growing slower than profits indicates improving operating leverage and scale benefits,85.0
+BPCL,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+BPCL,pro,PRO_6,Net profit compounding at above 20% over 5 years indicates strong earnings growth,78.69
+BPCL,con,CON_9,Operating profit margin below 10% indicates limited operating profitability,80.0
+BRITANNIA,pro,PRO_7,Strong interest coverage indicates limited financial stress from debt servicing,90.0
+BRITANNIA,pro,PRO_11,Revenue growing slower than profits indicates improving operating leverage and scale benefits,85.0
+BRITANNIA,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+BRITANNIA,con,FALLBACK_CON_REVENUE,Revenue CAGR of 8.69% indicates relatively modest historical top-line growth,70.0
+CANBK,pro,PRO_6,Net profit compounding at above 20% over 5 years indicates strong earnings growth,95.0
+CANBK,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings compounding,95.0
+CANBK,pro,PRO_11,Revenue growing slower than profits indicates improving operating leverage and scale benefits,85.0
+CANBK,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+CANBK,pro,PRO_4,Revenue growing at above 15% CAGR over 5 years reflects strong business momentum,76.35
+CANBK,con,CON_4,Debt-to-equity above 2x indicates elevated financial leverage and balance-sheet risk,95.0
+CANBK,con,CON_5,Net debt exceeding 3 times EBITDA indicates high leverage and reduced financial flexibility,95.0
+CANBK,con,CON_8,Rising borrowings over consecutive periods suggest increasing financial leverage risk,90.0
+CANBK,con,CON_10,Return on capital employed below 10% suggests weak returns on invested capital,85.0
+CANBK,con,CON_9,Operating profit margin below 10% indicates limited operating profitability,80.0
 CHOLAFIN,pro,PRO_5,Operating profit margin above 25% indicates strong pricing power and cost discipline,95.0
-CHOLAFIN,pro,PRO_6,Net profit compounding at above 20% over 5 years creates significant shareholder value,84.38
-CHOLAFIN,pro,PRO_7,Very high interest coverage ratio reflects negligible financial stress from debt servicing,90.0
-CHOLAFIN,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings quality and compounding,90.63
-CIPLA,pro,PRO_12,Growing asset base funded by internal accruals reflects self-sustaining growth,85.0
-CIPLA,pro,PRO_2,Strong free cash flow generation over 5 years signals healthy business fundamentals,95.0
+CHOLAFIN,pro,PRO_7,Strong interest coverage indicates limited financial stress from debt servicing,90.0
+CHOLAFIN,pro,PRO_11,Revenue growing slower than profits indicates improving operating leverage and scale benefits,85.0
+CHOLAFIN,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+CHOLAFIN,pro,PRO_4,Revenue growing at above 15% CAGR over 5 years reflects strong business momentum,83.88
+CHOLAFIN,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings compounding,80.91
+CHOLAFIN,pro,PRO_6,Net profit compounding at above 20% over 5 years indicates strong earnings growth,75.05
+CHOLAFIN,con,CON_4,Debt-to-equity above 2x indicates elevated financial leverage and balance-sheet risk,95.0
+CHOLAFIN,con,CON_5,Net debt exceeding 3 times EBITDA indicates high leverage and reduced financial flexibility,95.0
+CHOLAFIN,con,CON_2,Negative recent free cash flow indicates pressure on internally generated cash,90.0
+CHOLAFIN,con,CON_8,Rising borrowings over consecutive periods suggest increasing financial leverage risk,90.0
+CIPLA,pro,PRO_2,Strong free cash flow generation over 5 years signals healthy internal cash generation,95.0
 CIPLA,pro,PRO_5,Operating profit margin above 25% indicates strong pricing power and cost discipline,95.0
-CIPLA,pro,PRO_6,Net profit compounding at above 20% over 5 years creates significant shareholder value,80.74
-CIPLA,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings quality and compounding,87.53
-COALINDIA,con,CON_8,Rising debt-to-equity ratio over 3 years suggests increasing financial leverage risk,80.0
-COALINDIA,pro,PRO_2,Strong free cash flow generation over 5 years signals healthy business fundamentals,95.0
+CIPLA,pro,PRO_7,Strong interest coverage indicates limited financial stress from debt servicing,90.0
+CIPLA,pro,PRO_11,Revenue growing slower than profits indicates improving operating leverage and scale benefits,85.0
+CIPLA,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+CIPLA,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings compounding,80.25
+CIPLA,pro,PRO_6,Net profit compounding at above 20% over 5 years indicates strong earnings growth,74.09
+CIPLA,con,FALLBACK_CON_REVENUE,Revenue CAGR of 9.51% indicates relatively modest historical top-line growth,70.0
+COALINDIA,pro,PRO_2,Strong free cash flow generation over 5 years signals healthy internal cash generation,95.0
 COALINDIA,pro,PRO_5,Operating profit margin above 25% indicates strong pricing power and cost discipline,95.0
-COALINDIA,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings quality and compounding,71.06
-DABUR,con,CON_8,Rising debt-to-equity ratio over 3 years suggests increasing financial leverage risk,80.0
-DABUR,pro,PRO_11,Revenue growing slower than profits shows improving operating leverage and scale benefits,85.0
-DABUR,pro,PRO_2,Strong free cash flow generation over 5 years signals healthy business fundamentals,95.0
-DABUR,pro,PRO_7,Very high interest coverage ratio reflects negligible financial stress from debt servicing,90.0
-DIVISLAB,pro,PRO_11,Revenue growing slower than profits shows improving operating leverage and scale benefits,85.0
+COALINDIA,pro,PRO_11,Revenue growing slower than profits indicates improving operating leverage and scale benefits,85.0
+COALINDIA,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+COALINDIA,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings compounding,72.78
+COALINDIA,con,CON_8,Rising borrowings over consecutive periods suggest increasing financial leverage risk,90.0
+DABUR,pro,PRO_2,Strong free cash flow generation over 5 years signals healthy internal cash generation,95.0
+DABUR,pro,PRO_7,Strong interest coverage indicates limited financial stress from debt servicing,90.0
+DABUR,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+DABUR,con,CON_8,Rising borrowings over consecutive periods suggest increasing financial leverage risk,90.0
+DIVISLAB,pro,PRO_7,Strong interest coverage indicates limited financial stress from debt servicing,90.0
+DIVISLAB,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
 DIVISLAB,pro,PRO_5,Operating profit margin above 25% indicates strong pricing power and cost discipline,80.0
-DIVISLAB,pro,PRO_7,Very high interest coverage ratio reflects negligible financial stress from debt servicing,90.0
-DLF,con,CON_10,Return on capital employed below 10% suggests the business is not generating sufficient returns on invested capital,78.52
-DLF,con,CON_12,Revenue growing at below 5% over 5 years lags inflation and suggests limited business momentum,81.45
-DLF,pro,PRO_2,Strong free cash flow generation over 5 years signals healthy business fundamentals,95.0
+DIVISLAB,con,CON_11,Net profit declining across consecutive periods indicates weakening earnings momentum,90.0
+DIVISLAB,con,CON_12,Declining EPS across consecutive periods indicates pressure on per-share earnings,90.0
+DLF,pro,PRO_2,Strong free cash flow generation over 5 years signals healthy internal cash generation,95.0
+DLF,pro,PRO_11,Revenue growing slower than profits indicates improving operating leverage and scale benefits,85.0
 DLF,pro,PRO_5,Operating profit margin above 25% indicates strong pricing power and cost discipline,74.0
-DMART,pro,PRO_11,Revenue growing slower than profits shows improving operating leverage and scale benefits,85.0
-DMART,pro,PRO_4,Revenue growing at above 15% CAGR over 5 years reflects strong business momentum,76.26
-DMART,pro,PRO_7,Very high interest coverage ratio reflects negligible financial stress from debt servicing,90.0
-DMART,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings quality and compounding,71.49
-DRREDDY,pro,PRO_2,Strong free cash flow generation over 5 years signals healthy business fundamentals,95.0
+DLF,con,CON_1,Return on equity below 10% indicates relatively weak shareholder capital efficiency,85.0
+DLF,con,CON_10,Return on capital employed below 10% suggests weak returns on invested capital,85.0
+DMART,pro,PRO_7,Strong interest coverage indicates limited financial stress from debt servicing,90.0
+DMART,pro,PRO_11,Revenue growing slower than profits indicates improving operating leverage and scale benefits,85.0
+DMART,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+DMART,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings compounding,81.61
+DMART,pro,PRO_4,Revenue growing at above 15% CAGR over 5 years reflects strong business momentum,80.97
+DMART,pro,PRO_6,Net profit compounding at above 20% over 5 years indicates strong earnings growth,74.45
+DMART,con,CON_9,Operating profit margin below 10% indicates limited operating profitability,80.0
+DRREDDY,pro,PRO_2,Strong free cash flow generation over 5 years signals healthy internal cash generation,95.0
+DRREDDY,pro,PRO_7,Strong interest coverage indicates limited financial stress from debt servicing,90.0
+DRREDDY,pro,PRO_11,Revenue growing slower than profits indicates improving operating leverage and scale benefits,85.0
+DRREDDY,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+DRREDDY,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings compounding,83.26
+DRREDDY,pro,PRO_6,Net profit compounding at above 20% over 5 years indicates strong earnings growth,75.09
 DRREDDY,pro,PRO_5,Operating profit margin above 25% indicates strong pricing power and cost discipline,74.0
-DRREDDY,pro,PRO_6,Net profit compounding at above 20% over 5 years creates significant shareholder value,72.81
-DRREDDY,pro,PRO_7,Very high interest coverage ratio reflects negligible financial stress from debt servicing,90.0
-DRREDDY,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings quality and compounding,80.01
-EICHERMOT,pro,PRO_2,Strong free cash flow generation over 5 years signals healthy business fundamentals,95.0
+DRREDDY,con,FALLBACK_CON_MARGIN,Current operating margin of 27.00% leaves scope for further improvement in operating efficiency,65.0
+EICHERMOT,pro,PRO_2,Strong free cash flow generation over 5 years signals healthy internal cash generation,95.0
+EICHERMOT,pro,PRO_7,Strong interest coverage indicates limited financial stress from debt servicing,90.0
+EICHERMOT,pro,PRO_11,Revenue growing slower than profits indicates improving operating leverage and scale benefits,85.0
+EICHERMOT,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
 EICHERMOT,pro,PRO_5,Operating profit margin above 25% indicates strong pricing power and cost discipline,72.0
-EICHERMOT,pro,PRO_7,Very high interest coverage ratio reflects negligible financial stress from debt servicing,90.0
-EICHERMOT,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings quality and compounding,75.12
-GAIL,pro,PRO_11,Revenue growing slower than profits shows improving operating leverage and scale benefits,85.0
-GAIL,pro,PRO_7,Very high interest coverage ratio reflects negligible financial stress from debt servicing,90.0
-GODREJCP,con,CON_4,Company reported a net loss in the most recent financial year,98.0
-GRASIM,con,CON_10,Return on capital employed below 10% suggests the business is not generating sufficient returns on invested capital,71.4
-GRASIM,con,CON_11,Net debt exceeding 3 times EBITDA is a high leverage ratio and limits financial flexibility,89.41
-GRASIM,con,CON_8,Rising debt-to-equity ratio over 3 years suggests increasing financial leverage risk,80.0
-GRASIM,con,CON_9,Earnings per share declining for 3 consecutive years reflects deteriorating profitability,90.0
-GRASIM,pro,PRO_11,Revenue growing slower than profits shows improving operating leverage and scale benefits,85.0
-HAL,con,CON_8,Rising debt-to-equity ratio over 3 years suggests increasing financial leverage risk,80.0
+EICHERMOT,con,FALLBACK_CON_MARGIN,Current operating margin of 26.00% leaves scope for further improvement in operating efficiency,65.0
+GAIL,pro,PRO_7,Strong interest coverage indicates limited financial stress from debt servicing,90.0
+GAIL,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+GAIL,con,FALLBACK_CON_ROE,Return on equity of 14.00% is below a stronger double-digit efficiency benchmark,70.0
+GODREJCP,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+GODREJCP,con,CON_2,Negative recent free cash flow indicates pressure on internally generated cash,90.0
+GODREJCP,con,CON_11,Net profit declining across consecutive periods indicates weakening earnings momentum,90.0
+GODREJCP,con,CON_1,Return on equity below 10% indicates relatively weak shareholder capital efficiency,85.0
+GRASIM,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings compounding,89.1
+GRASIM,pro,PRO_11,Revenue growing slower than profits indicates improving operating leverage and scale benefits,85.0
+GRASIM,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+GRASIM,pro,PRO_6,Net profit compounding at above 20% over 5 years indicates strong earnings growth,83.97
+GRASIM,con,CON_2,Negative recent free cash flow indicates pressure on internally generated cash,90.0
+GRASIM,con,CON_8,Rising borrowings over consecutive periods suggest increasing financial leverage risk,90.0
+GRASIM,con,CON_11,Net profit declining across consecutive periods indicates weakening earnings momentum,90.0
+GRASIM,con,CON_12,Declining EPS across consecutive periods indicates pressure on per-share earnings,90.0
+GRASIM,con,CON_1,Return on equity below 10% indicates relatively weak shareholder capital efficiency,85.0
+GRASIM,con,CON_10,Return on capital employed below 10% suggests weak returns on invested capital,85.0
+GRASIM,con,CON_5,Net debt exceeding 3 times EBITDA indicates high leverage and reduced financial flexibility,82.2
+HAL,pro,PRO_7,Strong interest coverage indicates limited financial stress from debt servicing,90.0
+HAL,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings compounding,87.46
+HAL,pro,PRO_11,Revenue growing slower than profits indicates improving operating leverage and scale benefits,85.0
+HAL,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
 HAL,pro,PRO_5,Operating profit margin above 25% indicates strong pricing power and cost discipline,84.0
-HAL,pro,PRO_6,Net profit compounding at above 20% over 5 years creates significant shareholder value,76.62
-HAL,pro,PRO_7,Very high interest coverage ratio reflects negligible financial stress from debt servicing,90.0
-HAL,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings quality and compounding,84.66
-HAVELLS,pro,PRO_11,Revenue growing slower than profits shows improving operating leverage and scale benefits,85.0
-HAVELLS,pro,PRO_4,Revenue growing at above 15% CAGR over 5 years reflects strong business momentum,73.96
-HAVELLS,pro,PRO_7,Very high interest coverage ratio reflects negligible financial stress from debt servicing,90.0
-HCLTECH,pro,PRO_11,Revenue growing slower than profits shows improving operating leverage and scale benefits,85.0
-HCLTECH,pro,PRO_2,Strong free cash flow generation over 5 years signals healthy business fundamentals,95.0
-HCLTECH,pro,PRO_7,Very high interest coverage ratio reflects negligible financial stress from debt servicing,90.0
-HDFCBANK,con,CON_10,Return on capital employed below 10% suggests the business is not generating sufficient returns on invested capital,74.66
-HDFCBANK,con,CON_11,Net debt exceeding 3 times EBITDA is a high leverage ratio and limits financial flexibility,98.0
-HDFCBANK,con,CON_8,Rising debt-to-equity ratio over 3 years suggests increasing financial leverage risk,80.0
-HDFCBANK,pro,PRO_11,Revenue growing slower than profits shows improving operating leverage and scale benefits,85.0
-HDFCBANK,pro,PRO_4,Revenue growing at above 15% CAGR over 5 years reflects strong business momentum,83.82
-HDFCBANK,pro,PRO_6,Net profit compounding at above 20% over 5 years creates significant shareholder value,72.2
-HDFCLIFE,con,CON_10,Return on capital employed below 10% suggests the business is not generating sufficient returns on invested capital,76.78
-HDFCLIFE,pro,PRO_11,Revenue growing slower than profits shows improving operating leverage and scale benefits,85.0
-HDFCLIFE,pro,PRO_4,Revenue growing at above 15% CAGR over 5 years reflects strong business momentum,95.0
+HAL,pro,PRO_6,Net profit compounding at above 20% over 5 years indicates strong earnings growth,79.73
+HAL,con,CON_8,Rising borrowings over consecutive periods suggest increasing financial leverage risk,90.0
+HAVELLS,pro,PRO_7,Strong interest coverage indicates limited financial stress from debt servicing,90.0
+HAVELLS,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+HAVELLS,con,FALLBACK_CON_EPS,EPS CAGR of 9.00% indicates relatively modest historical per-share earnings growth,70.0
+HCLTECH,pro,PRO_2,Strong free cash flow generation over 5 years signals healthy internal cash generation,95.0
+HCLTECH,pro,PRO_7,Strong interest coverage indicates limited financial stress from debt servicing,90.0
+HCLTECH,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+HCLTECH,con,FALLBACK_CON_PROFIT,Net profit CAGR of 9.19% indicates relatively modest historical earnings growth,70.0
+HDFCBANK,pro,PRO_11,Revenue growing slower than profits indicates improving operating leverage and scale benefits,85.0
+HDFCBANK,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+HDFCBANK,pro,PRO_4,Revenue growing at above 15% CAGR over 5 years reflects strong business momentum,83.9
+HDFCBANK,pro,PRO_6,Net profit compounding at above 20% over 5 years indicates strong earnings growth,75.8
+HDFCBANK,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings compounding,70.64
+HDFCBANK,con,CON_5,Net debt exceeding 3 times EBITDA indicates high leverage and reduced financial flexibility,95.0
+HDFCBANK,con,CON_4,Debt-to-equity above 2x indicates elevated financial leverage and balance-sheet risk,94.04
+HDFCBANK,con,CON_8,Rising borrowings over consecutive periods suggest increasing financial leverage risk,90.0
+HDFCBANK,con,CON_10,Return on capital employed below 10% suggests weak returns on invested capital,85.0
+HDFCBANK,con,CON_9,Operating profit margin below 10% indicates limited operating profitability,80.0
 HDFCLIFE,pro,PRO_5,Operating profit margin above 25% indicates strong pricing power and cost discipline,95.0
-HEROMOTOCO,pro,PRO_11,Revenue growing slower than profits shows improving operating leverage and scale benefits,85.0
-HEROMOTOCO,pro,PRO_2,Strong free cash flow generation over 5 years signals healthy business fundamentals,95.0
+HDFCLIFE,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+HDFCLIFE,pro,PRO_4,Revenue growing at above 15% CAGR over 5 years reflects strong business momentum,82.34
+HDFCLIFE,con,CON_2,Negative recent free cash flow indicates pressure on internally generated cash,90.0
+HDFCLIFE,con,CON_10,Return on capital employed below 10% suggests weak returns on invested capital,85.0
+HEROMOTOCO,pro,PRO_2,Strong free cash flow generation over 5 years signals healthy internal cash generation,95.0
 HEROMOTOCO,pro,PRO_5,Operating profit margin above 25% indicates strong pricing power and cost discipline,95.0
+HEROMOTOCO,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+HEROMOTOCO,con,FALLBACK_CON_PROFIT,Net profit CAGR of 1.54% indicates relatively modest historical earnings growth,70.0
 HINDALCO,pro,PRO_5,Operating profit margin above 25% indicates strong pricing power and cost discipline,95.0
-HINDALCO,pro,PRO_6,Net profit compounding at above 20% over 5 years creates significant shareholder value,80.63
-HINDALCO,pro,PRO_7,Very high interest coverage ratio reflects negligible financial stress from debt servicing,90.0
-HINDALCO,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings quality and compounding,87.89
-HINDUNILVR,con,CON_8,Rising debt-to-equity ratio over 3 years suggests increasing financial leverage risk,80.0
-HINDUNILVR,pro,PRO_2,Strong free cash flow generation over 5 years signals healthy business fundamentals,95.0
+HINDALCO,pro,PRO_7,Strong interest coverage indicates limited financial stress from debt servicing,90.0
+HINDALCO,pro,PRO_11,Revenue growing slower than profits indicates improving operating leverage and scale benefits,85.0
+HINDALCO,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+HINDALCO,con,FALLBACK_CON_ROE,Return on equity of 10.20% is below a stronger double-digit efficiency benchmark,70.0
+HINDUNILVR,pro,PRO_2,Strong free cash flow generation over 5 years signals healthy internal cash generation,95.0
 HINDUNILVR,pro,PRO_5,Operating profit margin above 25% indicates strong pricing power and cost discipline,95.0
-HINDUNILVR,pro,PRO_7,Very high interest coverage ratio reflects negligible financial stress from debt servicing,90.0
-ICICIBANK,con,CON_10,Return on capital employed below 10% suggests the business is not generating sufficient returns on invested capital,74.8
-ICICIBANK,con,CON_11,Net debt exceeding 3 times EBITDA is a high leverage ratio and limits financial flexibility,98.0
-ICICIBANK,con,CON_8,Rising debt-to-equity ratio over 3 years suggests increasing financial leverage risk,80.0
-ICICIBANK,pro,PRO_4,Revenue growing at above 15% CAGR over 5 years reflects strong business momentum,72.61
-ICICIBANK,pro,PRO_6,Net profit compounding at above 20% over 5 years creates significant shareholder value,94.15
-ICICIBANK,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings quality and compounding,95.0
-ICICIGI,pro,PRO_12,Growing asset base funded by internal accruals reflects self-sustaining growth,85.0
-ICICIGI,pro,PRO_2,Strong free cash flow generation over 5 years signals healthy business fundamentals,95.0
-ICICIGI,pro,PRO_3,Debt-free balance sheet provides financial flexibility and eliminates interest burden,98.0
-ICICIGI,pro,PRO_4,Revenue growing at above 15% CAGR over 5 years reflects strong business momentum,70.27
+HINDUNILVR,pro,PRO_7,Strong interest coverage indicates limited financial stress from debt servicing,90.0
+HINDUNILVR,pro,PRO_11,Revenue growing slower than profits indicates improving operating leverage and scale benefits,85.0
+HINDUNILVR,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+HINDUNILVR,con,CON_8,Rising borrowings over consecutive periods suggest increasing financial leverage risk,90.0
+ICICIBANK,pro,PRO_6,Net profit compounding at above 20% over 5 years indicates strong earnings growth,95.0
+ICICIBANK,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings compounding,95.0
+ICICIBANK,pro,PRO_11,Revenue growing slower than profits indicates improving operating leverage and scale benefits,85.0
+ICICIBANK,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+ICICIBANK,pro,PRO_4,Revenue growing at above 15% CAGR over 5 years reflects strong business momentum,74.5
+ICICIBANK,con,CON_5,Net debt exceeding 3 times EBITDA indicates high leverage and reduced financial flexibility,95.0
+ICICIBANK,con,CON_4,Debt-to-equity above 2x indicates elevated financial leverage and balance-sheet risk,92.23
+ICICIBANK,con,CON_8,Rising borrowings over consecutive periods suggest increasing financial leverage risk,90.0
+ICICIBANK,con,CON_10,Return on capital employed below 10% suggests weak returns on invested capital,85.0
+ICICIBANK,con,CON_9,Operating profit margin below 10% indicates limited operating profitability,80.0
+ICICIGI,pro,PRO_3,Debt-free balance sheet provides financial flexibility and minimizes interest burden,98.0
+ICICIGI,pro,PRO_2,Strong free cash flow generation over 5 years signals healthy internal cash generation,95.0
 ICICIGI,pro,PRO_5,Operating profit margin above 25% indicates strong pricing power and cost discipline,95.0
-ICICIGI,pro,PRO_7,Very high interest coverage ratio reflects negligible financial stress from debt servicing,90.0
-ICICIPRULI,con,CON_10,Return on capital employed below 10% suggests the business is not generating sufficient returns on invested capital,72.5
-ICICIPRULI,pro,PRO_11,Revenue growing slower than profits shows improving operating leverage and scale benefits,85.0
-ICICIPRULI,pro,PRO_12,Growing asset base funded by internal accruals reflects self-sustaining growth,85.0
-ICICIPRULI,pro,PRO_3,Debt-free balance sheet provides financial flexibility and eliminates interest burden,98.0
-ICICIPRULI,pro,PRO_4,Revenue growing at above 15% CAGR over 5 years reflects strong business momentum,95.0
+ICICIGI,pro,PRO_7,Strong interest coverage indicates limited financial stress from debt servicing,90.0
+ICICIGI,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+ICICIGI,con,FALLBACK_CON_MARGIN,Current operating margin of 3363.00% leaves scope for further improvement in operating efficiency,65.0
+ICICIPRULI,pro,PRO_3,Debt-free balance sheet provides financial flexibility and minimizes interest burden,98.0
 ICICIPRULI,pro,PRO_5,Operating profit margin above 25% indicates strong pricing power and cost discipline,95.0
-ICICIPRULI,pro,PRO_7,Very high interest coverage ratio reflects negligible financial stress from debt servicing,90.0
-INDIGO,pro,PRO_2,Strong free cash flow generation over 5 years signals healthy business fundamentals,95.0
-INDIGO,pro,PRO_4,Revenue growing at above 15% CAGR over 5 years reflects strong business momentum,72.84
+ICICIPRULI,pro,PRO_7,Strong interest coverage indicates limited financial stress from debt servicing,90.0
+ICICIPRULI,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+ICICIPRULI,pro,PRO_4,Revenue growing at above 15% CAGR over 5 years reflects strong business momentum,73.69
+ICICIPRULI,con,CON_1,Return on equity below 10% indicates relatively weak shareholder capital efficiency,85.0
+ICICIPRULI,con,CON_10,Return on capital employed below 10% suggests weak returns on invested capital,85.0
+ICICIPRULI,con,CON_6,Interest coverage below 1.5x indicates elevated risk in meeting debt-servicing obligations,76.54
+INDIGO,pro,PRO_2,Strong free cash flow generation over 5 years signals healthy internal cash generation,95.0
 INDIGO,pro,PRO_5,Operating profit margin above 25% indicates strong pricing power and cost discipline,95.0
-INDUSINDBK,con,CON_10,Return on capital employed below 10% suggests the business is not generating sufficient returns on invested capital,74.14
-INDUSINDBK,con,CON_11,Net debt exceeding 3 times EBITDA is a high leverage ratio and limits financial flexibility,98.0
-INDUSINDBK,con,CON_8,Rising debt-to-equity ratio over 3 years suggests increasing financial leverage risk,80.0
+INDIGO,pro,PRO_6,Net profit compounding at above 20% over 5 years indicates strong earnings growth,95.0
+INDIGO,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings compounding,95.0
+INDIGO,pro,PRO_11,Revenue growing slower than profits indicates improving operating leverage and scale benefits,85.0
+INDIGO,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+INDIGO,pro,PRO_4,Revenue growing at above 15% CAGR over 5 years reflects strong business momentum,78.63
+INDIGO,con,FALLBACK_CON_ICR,Interest coverage of 4.46x indicates less headroom for debt servicing than stronger balance sheets,70.0
 INDUSINDBK,pro,PRO_5,Operating profit margin above 25% indicates strong pricing power and cost discipline,95.0
-INFY,con,CON_8,Rising debt-to-equity ratio over 3 years suggests increasing financial leverage risk,80.0
-INFY,pro,PRO_11,Revenue growing slower than profits shows improving operating leverage and scale benefits,85.0
-INFY,pro,PRO_2,Strong free cash flow generation over 5 years signals healthy business fundamentals,95.0
-INFY,pro,PRO_7,Very high interest coverage ratio reflects negligible financial stress from debt servicing,90.0
-IOC,con,CON_11,Net debt exceeding 3 times EBITDA is a high leverage ratio and limits financial flexibility,77.42
-IOC,con,CON_5,Revenue contraction over 2 consecutive years indicates demand weakness or market share loss,90.0
-IRCTC,pro,PRO_12,Growing asset base funded by internal accruals reflects self-sustaining growth,85.0
+INDUSINDBK,pro,PRO_11,Revenue growing slower than profits indicates improving operating leverage and scale benefits,85.0
+INDUSINDBK,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+INDUSINDBK,pro,PRO_6,Net profit compounding at above 20% over 5 years indicates strong earnings growth,73.12
+INDUSINDBK,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings compounding,71.34
+INDUSINDBK,pro,PRO_4,Revenue growing at above 15% CAGR over 5 years reflects strong business momentum,70.99
+INDUSINDBK,con,CON_5,Net debt exceeding 3 times EBITDA indicates high leverage and reduced financial flexibility,95.0
+INDUSINDBK,con,CON_4,Debt-to-equity above 2x indicates elevated financial leverage and balance-sheet risk,94.43
+INDUSINDBK,con,CON_2,Negative recent free cash flow indicates pressure on internally generated cash,90.0
+INDUSINDBK,con,CON_8,Rising borrowings over consecutive periods suggest increasing financial leverage risk,90.0
+INDUSINDBK,con,CON_10,Return on capital employed below 10% suggests weak returns on invested capital,85.0
+INFY,pro,PRO_2,Strong free cash flow generation over 5 years signals healthy internal cash generation,95.0
+INFY,pro,PRO_7,Strong interest coverage indicates limited financial stress from debt servicing,90.0
+INFY,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+INFY,con,CON_8,Rising borrowings over consecutive periods suggest increasing financial leverage risk,90.0
+IOC,pro,PRO_11,Revenue growing slower than profits indicates improving operating leverage and scale benefits,85.0
+IOC,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+IOC,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings compounding,77.67
+IOC,pro,PRO_6,Net profit compounding at above 20% over 5 years indicates strong earnings growth,70.15
+IOC,con,CON_9,Operating profit margin below 10% indicates limited operating profitability,80.0
+IOC,con,CON_5,Net debt exceeding 3 times EBITDA indicates high leverage and reduced financial flexibility,76.21
+IRCTC,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings compounding,90.21
+IRCTC,pro,PRO_7,Strong interest coverage indicates limited financial stress from debt servicing,90.0
 IRCTC,pro,PRO_5,Operating profit margin above 25% indicates strong pricing power and cost discipline,88.0
-IRCTC,pro,PRO_7,Very high interest coverage ratio reflects negligible financial stress from debt servicing,90.0
-IRCTC,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings quality and compounding,77.67
-IRFC,con,CON_10,Return on capital employed below 10% suggests the business is not generating sufficient returns on invested capital,78.54
-IRFC,con,CON_11,Net debt exceeding 3 times EBITDA is a high leverage ratio and limits financial flexibility,98.0
-IRFC,con,CON_6,Interest coverage ratio below 1.5x indicates the company is at risk of not meeting its debt obligations,77.65
-IRFC,pro,PRO_12,Growing asset base funded by internal accruals reflects self-sustaining growth,85.0
+IRCTC,pro,PRO_11,Revenue growing slower than profits indicates improving operating leverage and scale benefits,85.0
+IRCTC,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+IRCTC,pro,PRO_6,Net profit compounding at above 20% over 5 years indicates strong earnings growth,83.75
+IRCTC,pro,PRO_4,Revenue growing at above 15% CAGR over 5 years reflects strong business momentum,75.91
+IRCTC,con,FALLBACK_CON_MARGIN,Current operating margin of 34.00% leaves scope for further improvement in operating efficiency,65.0
 IRFC,pro,PRO_5,Operating profit margin above 25% indicates strong pricing power and cost discipline,95.0
-ITC,pro,PRO_11,Revenue growing slower than profits shows improving operating leverage and scale benefits,85.0
-ITC,pro,PRO_12,Growing asset base funded by internal accruals reflects self-sustaining growth,85.0
-ITC,pro,PRO_2,Strong free cash flow generation over 5 years signals healthy business fundamentals,95.0
+IRFC,pro,PRO_11,Revenue growing slower than profits indicates improving operating leverage and scale benefits,85.0
+IRFC,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+IRFC,pro,PRO_4,Revenue growing at above 15% CAGR over 5 years reflects strong business momentum,78.13
+IRFC,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings compounding,77.67
+IRFC,pro,PRO_6,Net profit compounding at above 20% over 5 years indicates strong earnings growth,74.87
+IRFC,con,CON_4,Debt-to-equity above 2x indicates elevated financial leverage and balance-sheet risk,95.0
+IRFC,con,CON_5,Net debt exceeding 3 times EBITDA indicates high leverage and reduced financial flexibility,95.0
+IRFC,con,CON_10,Return on capital employed below 10% suggests weak returns on invested capital,85.0
+IRFC,con,CON_6,Interest coverage below 1.5x indicates elevated risk in meeting debt-servicing obligations,76.81
+ITC,pro,PRO_2,Strong free cash flow generation over 5 years signals healthy internal cash generation,95.0
 ITC,pro,PRO_5,Operating profit margin above 25% indicates strong pricing power and cost discipline,90.0
-ITC,pro,PRO_7,Very high interest coverage ratio reflects negligible financial stress from debt servicing,90.0
-JINDALSTEL,con,CON_5,Revenue contraction over 2 consecutive years indicates demand weakness or market share loss,90.0
-JIOFIN,con,CON_10,Return on capital employed below 10% suggests the business is not generating sufficient returns on invested capital,85.68
-JIOFIN,pro,PRO_12,Growing asset base funded by internal accruals reflects self-sustaining growth,85.0
-JIOFIN,pro,PRO_3,Debt-free balance sheet provides financial flexibility and eliminates interest burden,98.0
+ITC,pro,PRO_7,Strong interest coverage indicates limited financial stress from debt servicing,90.0
+ITC,pro,PRO_11,Revenue growing slower than profits indicates improving operating leverage and scale benefits,85.0
+ITC,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+ITC,con,FALLBACK_CON_REVENUE,Revenue CAGR of 7.95% indicates relatively modest historical top-line growth,70.0
+JINDALSTEL,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+JINDALSTEL,con,CON_2,Negative recent free cash flow indicates pressure on internally generated cash,90.0
+JIOFIN,pro,PRO_3,Debt-free balance sheet provides financial flexibility and minimizes interest burden,98.0
 JIOFIN,pro,PRO_5,Operating profit margin above 25% indicates strong pricing power and cost discipline,95.0
-JIOFIN,pro,PRO_7,Very high interest coverage ratio reflects negligible financial stress from debt servicing,90.0
-JSWENERGY,con,CON_10,Return on capital employed below 10% suggests the business is not generating sufficient returns on invested capital,72.82
-JSWENERGY,con,CON_11,Net debt exceeding 3 times EBITDA is a high leverage ratio and limits financial flexibility,86.38
+JIOFIN,pro,PRO_7,Strong interest coverage indicates limited financial stress from debt servicing,90.0
+JIOFIN,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+JIOFIN,con,CON_1,Return on equity below 10% indicates relatively weak shareholder capital efficiency,85.0
+JIOFIN,con,CON_10,Return on capital employed below 10% suggests weak returns on invested capital,85.0
 JSWENERGY,pro,PRO_5,Operating profit margin above 25% indicates strong pricing power and cost discipline,95.0
-JSWSTEEL,con,CON_11,Net debt exceeding 3 times EBITDA is a high leverage ratio and limits financial flexibility,75.2
-JSWSTEEL,con,CON_8,Rising debt-to-equity ratio over 3 years suggests increasing financial leverage risk,80.0
-JSWSTEEL,pro,PRO_11,Revenue growing slower than profits shows improving operating leverage and scale benefits,85.0
-JSWSTEEL,pro,PRO_4,Revenue growing at above 15% CAGR over 5 years reflects strong business momentum,76.71
-KOTAKBANK,con,CON_10,Return on capital employed below 10% suggests the business is not generating sufficient returns on invested capital,74.28
-KOTAKBANK,con,CON_11,Net debt exceeding 3 times EBITDA is a high leverage ratio and limits financial flexibility,98.0
-KOTAKBANK,con,CON_8,Rising debt-to-equity ratio over 3 years suggests increasing financial leverage risk,80.0
-KOTAKBANK,pro,PRO_6,Net profit compounding at above 20% over 5 years creates significant shareholder value,71.89
-KOTAKBANK,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings quality and compounding,77.83
-LICI,pro,PRO_2,Strong free cash flow generation over 5 years signals healthy business fundamentals,95.0
-LICI,pro,PRO_6,Net profit compounding at above 20% over 5 years creates significant shareholder value,95.0
-LODHA,con,CON_12,Revenue growing at below 5% over 5 years lags inflation and suggests limited business momentum,84.73
-LODHA,pro,PRO_12,Growing asset base funded by internal accruals reflects self-sustaining growth,85.0
+JSWENERGY,pro,PRO_11,Revenue growing slower than profits indicates improving operating leverage and scale benefits,85.0
+JSWENERGY,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+JSWENERGY,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings compounding,77.67
+JSWENERGY,pro,PRO_6,Net profit compounding at above 20% over 5 years indicates strong earnings growth,70.48
+JSWENERGY,con,CON_2,Negative recent free cash flow indicates pressure on internally generated cash,90.0
+JSWENERGY,con,CON_1,Return on equity below 10% indicates relatively weak shareholder capital efficiency,85.0
+JSWENERGY,con,CON_10,Return on capital employed below 10% suggests weak returns on invested capital,85.0
+JSWENERGY,con,CON_5,Net debt exceeding 3 times EBITDA indicates high leverage and reduced financial flexibility,80.69
+JSWSTEEL,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+JSWSTEEL,pro,PRO_4,Revenue growing at above 15% CAGR over 5 years reflects strong business momentum,71.21
+JSWSTEEL,con,CON_2,Negative recent free cash flow indicates pressure on internally generated cash,90.0
+JSWSTEEL,con,CON_8,Rising borrowings over consecutive periods suggest increasing financial leverage risk,90.0
+JSWSTEEL,con,CON_5,Net debt exceeding 3 times EBITDA indicates high leverage and reduced financial flexibility,75.1
+KOTAKBANK,pro,PRO_11,Revenue growing slower than profits indicates improving operating leverage and scale benefits,85.0
+KOTAKBANK,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+KOTAKBANK,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings compounding,76.52
+KOTAKBANK,pro,PRO_6,Net profit compounding at above 20% over 5 years indicates strong earnings growth,70.57
+KOTAKBANK,con,CON_5,Net debt exceeding 3 times EBITDA indicates high leverage and reduced financial flexibility,95.0
+KOTAKBANK,con,CON_8,Rising borrowings over consecutive periods suggest increasing financial leverage risk,90.0
+KOTAKBANK,con,CON_10,Return on capital employed below 10% suggests weak returns on invested capital,85.0
+KOTAKBANK,con,CON_4,Debt-to-equity above 2x indicates elevated financial leverage and balance-sheet risk,80.02
+KOTAKBANK,con,CON_9,Operating profit margin below 10% indicates limited operating profitability,80.0
+LICI,pro,PRO_2,Strong free cash flow generation over 5 years signals healthy internal cash generation,95.0
+LICI,pro,PRO_6,Net profit compounding at above 20% over 5 years indicates strong earnings growth,95.0
+LICI,pro,PRO_7,Strong interest coverage indicates limited financial stress from debt servicing,90.0
+LICI,pro,PRO_11,Revenue growing slower than profits indicates improving operating leverage and scale benefits,85.0
+LICI,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+LICI,con,CON_9,Operating profit margin below 10% indicates limited operating profitability,80.0
+LODHA,pro,PRO_11,Revenue growing slower than profits indicates improving operating leverage and scale benefits,85.0
+LODHA,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
 LODHA,pro,PRO_5,Operating profit margin above 25% indicates strong pricing power and cost discipline,76.0
-LODHA,pro,PRO_6,Net profit compounding at above 20% over 5 years creates significant shareholder value,81.42
-LODHA,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings quality and compounding,81.51
-LT,con,CON_3,Operating margins declining for 3 consecutive years suggest pricing or cost pressure,90.0
-LT,con,CON_8,Rising debt-to-equity ratio over 3 years suggests increasing financial leverage risk,80.0
-LT,pro,PRO_11,Revenue growing slower than profits shows improving operating leverage and scale benefits,85.0
-LTIM,con,CON_8,Rising debt-to-equity ratio over 3 years suggests increasing financial leverage risk,80.0
-LTIM,pro,PRO_11,Revenue growing slower than profits shows improving operating leverage and scale benefits,85.0
-LTIM,pro,PRO_2,Strong free cash flow generation over 5 years signals healthy business fundamentals,95.0
+LODHA,con,CON_2,Negative recent free cash flow indicates pressure on internally generated cash,90.0
+LT,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+LT,con,CON_3,Operating margins declining for consecutive years suggest pricing or cost pressure,90.0
+LT,con,CON_8,Rising borrowings over consecutive periods suggest increasing financial leverage risk,90.0
+LTIM,pro,PRO_2,Strong free cash flow generation over 5 years signals healthy internal cash generation,95.0
 LTIM,pro,PRO_4,Revenue growing at above 15% CAGR over 5 years reflects strong business momentum,95.0
-LTIM,pro,PRO_6,Net profit compounding at above 20% over 5 years creates significant shareholder value,76.97
-LTIM,pro,PRO_7,Very high interest coverage ratio reflects negligible financial stress from debt servicing,90.0
-M&M,con,CON_11,Net debt exceeding 3 times EBITDA is a high leverage ratio and limits financial flexibility,80.02
-M&M,con,CON_8,Rising debt-to-equity ratio over 3 years suggests increasing financial leverage risk,80.0
-M&M,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings quality and compounding,95.0
-MARUTI,pro,PRO_12,Growing asset base funded by internal accruals reflects self-sustaining growth,85.0
-MARUTI,pro,PRO_2,Strong free cash flow generation over 5 years signals healthy business fundamentals,95.0
-MARUTI,pro,PRO_7,Very high interest coverage ratio reflects negligible financial stress from debt servicing,90.0
-MARUTI,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings quality and compounding,75.79
-MOTHERSON,pro,PRO_2,Strong free cash flow generation over 5 years signals healthy business fundamentals,95.0
-MOTHERSON,pro,PRO_6,Net profit compounding at above 20% over 5 years creates significant shareholder value,79.12
-MOTHERSON,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings quality and compounding,84.36
-NAUKRI,con,CON_10,Return on capital employed below 10% suggests the business is not generating sufficient returns on invested capital,82.7
-NAUKRI,con,CON_8,Rising debt-to-equity ratio over 3 years suggests increasing financial leverage risk,80.0
-NAUKRI,pro,PRO_4,Revenue growing at above 15% CAGR over 5 years reflects strong business momentum,70.4
+LTIM,pro,PRO_7,Strong interest coverage indicates limited financial stress from debt servicing,90.0
+LTIM,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+LTIM,pro,PRO_6,Net profit compounding at above 20% over 5 years indicates strong earnings growth,77.16
+LTIM,con,CON_8,Rising borrowings over consecutive periods suggest increasing financial leverage risk,90.0
+M&M,pro,PRO_11,Revenue growing slower than profits indicates improving operating leverage and scale benefits,85.0
+M&M,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+M&M,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings compounding,71.76
+M&M,con,CON_2,Negative recent free cash flow indicates pressure on internally generated cash,90.0
+M&M,con,CON_8,Rising borrowings over consecutive periods suggest increasing financial leverage risk,90.0
+M&M,con,CON_5,Net debt exceeding 3 times EBITDA indicates high leverage and reduced financial flexibility,77.51
+MARUTI,pro,PRO_2,Strong free cash flow generation over 5 years signals healthy internal cash generation,95.0
+MARUTI,pro,PRO_7,Strong interest coverage indicates limited financial stress from debt servicing,90.0
+MARUTI,pro,PRO_11,Revenue growing slower than profits indicates improving operating leverage and scale benefits,85.0
+MARUTI,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+MARUTI,con,FALLBACK_CON_MARGIN,Current operating margin of 14.00% leaves scope for further improvement in operating efficiency,65.0
+MOTHERSON,pro,PRO_2,Strong free cash flow generation over 5 years signals healthy internal cash generation,95.0
+MOTHERSON,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+MOTHERSON,con,FALLBACK_CON_ROE,Return on equity of 11.80% is below a stronger double-digit efficiency benchmark,70.0
+NAUKRI,pro,PRO_7,Strong interest coverage indicates limited financial stress from debt servicing,90.0
+NAUKRI,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
 NAUKRI,pro,PRO_5,Operating profit margin above 25% indicates strong pricing power and cost discipline,76.0
-NAUKRI,pro,PRO_7,Very high interest coverage ratio reflects negligible financial stress from debt servicing,90.0
-NESTLEIND,pro,PRO_2,Strong free cash flow generation over 5 years signals healthy business fundamentals,95.0
-NESTLEIND,pro,PRO_7,Very high interest coverage ratio reflects negligible financial stress from debt servicing,90.0
-NHPC,con,CON_10,Return on capital employed below 10% suggests the business is not generating sufficient returns on invested capital,74.66
-NHPC,con,CON_11,Net debt exceeding 3 times EBITDA is a high leverage ratio and limits financial flexibility,95.2
-NHPC,con,CON_12,Revenue growing at below 5% over 5 years lags inflation and suggests limited business momentum,91.93
-NHPC,con,CON_8,Rising debt-to-equity ratio over 3 years suggests increasing financial leverage risk,80.0
-NHPC,pro,PRO_2,Strong free cash flow generation over 5 years signals healthy business fundamentals,95.0
+NAUKRI,pro,PRO_4,Revenue growing at above 15% CAGR over 5 years reflects strong business momentum,74.23
+NAUKRI,con,CON_2,Negative recent free cash flow indicates pressure on internally generated cash,90.0
+NAUKRI,con,CON_8,Rising borrowings over consecutive periods suggest increasing financial leverage risk,90.0
+NAUKRI,con,CON_1,Return on equity below 10% indicates relatively weak shareholder capital efficiency,85.0
+NAUKRI,con,CON_10,Return on capital employed below 10% suggests weak returns on invested capital,85.0
+NESTLEIND,pro,PRO_2,Strong free cash flow generation over 5 years signals healthy internal cash generation,95.0
+NESTLEIND,pro,PRO_7,Strong interest coverage indicates limited financial stress from debt servicing,90.0
+NESTLEIND,pro,PRO_11,Revenue growing slower than profits indicates improving operating leverage and scale benefits,85.0
+NESTLEIND,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+NESTLEIND,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings compounding,70.66
+NESTLEIND,con,FALLBACK_CON_MARGIN,Current operating margin of 24.00% leaves scope for further improvement in operating efficiency,65.0
+NHPC,pro,PRO_2,Strong free cash flow generation over 5 years signals healthy internal cash generation,95.0
 NHPC,pro,PRO_5,Operating profit margin above 25% indicates strong pricing power and cost discipline,95.0
-NTPC,con,CON_11,Net debt exceeding 3 times EBITDA is a high leverage ratio and limits financial flexibility,78.9
-NTPC,con,CON_8,Rising debt-to-equity ratio over 3 years suggests increasing financial leverage risk,80.0
+NHPC,pro,PRO_11,Revenue growing slower than profits indicates improving operating leverage and scale benefits,85.0
+NHPC,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+NHPC,con,CON_8,Rising borrowings over consecutive periods suggest increasing financial leverage risk,90.0
+NHPC,con,CON_5,Net debt exceeding 3 times EBITDA indicates high leverage and reduced financial flexibility,85.1
+NHPC,con,CON_1,Return on equity below 10% indicates relatively weak shareholder capital efficiency,85.0
+NHPC,con,CON_10,Return on capital employed below 10% suggests weak returns on invested capital,85.0
+NTPC,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
 NTPC,pro,PRO_5,Operating profit margin above 25% indicates strong pricing power and cost discipline,76.0
-ONGC,con,CON_8,Rising debt-to-equity ratio over 3 years suggests increasing financial leverage risk,80.0
-ONGC,pro,PRO_2,Strong free cash flow generation over 5 years signals healthy business fundamentals,95.0
-ONGC,pro,PRO_6,Net profit compounding at above 20% over 5 years creates significant shareholder value,84.8
-ONGC,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings quality and compounding,92.01
-PFC,con,CON_10,Return on capital employed below 10% suggests the business is not generating sufficient returns on invested capital,70.08
-PFC,con,CON_11,Net debt exceeding 3 times EBITDA is a high leverage ratio and limits financial flexibility,98.0
-PFC,con,CON_8,Rising debt-to-equity ratio over 3 years suggests increasing financial leverage risk,80.0
+NTPC,con,CON_8,Rising borrowings over consecutive periods suggest increasing financial leverage risk,90.0
+NTPC,con,CON_5,Net debt exceeding 3 times EBITDA indicates high leverage and reduced financial flexibility,76.95
+ONGC,pro,PRO_2,Strong free cash flow generation over 5 years signals healthy internal cash generation,95.0
+ONGC,pro,PRO_11,Revenue growing slower than profits indicates improving operating leverage and scale benefits,85.0
+ONGC,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+ONGC,con,CON_8,Rising borrowings over consecutive periods suggest increasing financial leverage risk,90.0
 PFC,pro,PRO_5,Operating profit margin above 25% indicates strong pricing power and cost discipline,92.0
-PFC,pro,PRO_6,Net profit compounding at above 20% over 5 years creates significant shareholder value,76.62
-PFC,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings quality and compounding,83.21
-PIDILITIND,pro,PRO_11,Revenue growing slower than profits shows improving operating leverage and scale benefits,85.0
-PIDILITIND,pro,PRO_12,Growing asset base funded by internal accruals reflects self-sustaining growth,85.0
-PIDILITIND,pro,PRO_7,Very high interest coverage ratio reflects negligible financial stress from debt servicing,90.0
-PNB,con,CON_10,Return on capital employed below 10% suggests the business is not generating sufficient returns on invested capital,86.74
-PNB,con,CON_6,Interest coverage ratio below 1.5x indicates the company is at risk of not meeting its debt obligations,78.23
-PNB,pro,PRO_4,Revenue growing at above 15% CAGR over 5 years reflects strong business momentum,72.31
-PNB,pro,PRO_6,Net profit compounding at above 20% over 5 years creates significant shareholder value,95.0
-PNB,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings quality and compounding,95.0
-POWERGRID,con,CON_12,Revenue growing at below 5% over 5 years lags inflation and suggests limited business momentum,78.15
-POWERGRID,pro,PRO_12,Growing asset base funded by internal accruals reflects self-sustaining growth,85.0
-POWERGRID,pro,PRO_2,Strong free cash flow generation over 5 years signals healthy business fundamentals,95.0
+PFC,pro,PRO_11,Revenue growing slower than profits indicates improving operating leverage and scale benefits,85.0
+PFC,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+PFC,con,CON_4,Debt-to-equity above 2x indicates elevated financial leverage and balance-sheet risk,95.0
+PFC,con,CON_5,Net debt exceeding 3 times EBITDA indicates high leverage and reduced financial flexibility,95.0
+PFC,con,CON_2,Negative recent free cash flow indicates pressure on internally generated cash,90.0
+PFC,con,CON_8,Rising borrowings over consecutive periods suggest increasing financial leverage risk,90.0
+PFC,con,CON_10,Return on capital employed below 10% suggests weak returns on invested capital,85.0
+PIDILITIND,pro,PRO_7,Strong interest coverage indicates limited financial stress from debt servicing,90.0
+PIDILITIND,pro,PRO_11,Revenue growing slower than profits indicates improving operating leverage and scale benefits,85.0
+PIDILITIND,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+PIDILITIND,con,FALLBACK_CON_MARGIN,Current operating margin of 23.00% leaves scope for further improvement in operating efficiency,65.0
+PNB,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+PNB,pro,PRO_4,Revenue growing at above 15% CAGR over 5 years reflects strong business momentum,71.8
+PNB,con,CON_2,Negative recent free cash flow indicates pressure on internally generated cash,90.0
+PNB,con,CON_1,Return on equity below 10% indicates relatively weak shareholder capital efficiency,85.0
+PNB,con,CON_10,Return on capital employed below 10% suggests weak returns on invested capital,85.0
+PNB,con,CON_4,Debt-to-equity above 2x indicates elevated financial leverage and balance-sheet risk,78.42
+PNB,con,CON_6,Interest coverage below 1.5x indicates elevated risk in meeting debt-servicing obligations,77.93
+POWERGRID,pro,PRO_2,Strong free cash flow generation over 5 years signals healthy internal cash generation,95.0
 POWERGRID,pro,PRO_5,Operating profit margin above 25% indicates strong pricing power and cost discipline,95.0
-RECLTD,con,CON_11,Net debt exceeding 3 times EBITDA is a high leverage ratio and limits financial flexibility,98.0
-RECLTD,con,CON_2,Free cash flow negative for 3 consecutive years raises concern about cash generation quality,92.0
-RECLTD,con,CON_8,Rising debt-to-equity ratio over 3 years suggests increasing financial leverage risk,80.0
+POWERGRID,pro,PRO_11,Revenue growing slower than profits indicates improving operating leverage and scale benefits,85.0
+POWERGRID,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+POWERGRID,con,FALLBACK_CON_ROCE,Return on capital employed of 13.20% leaves room for improvement in capital efficiency,70.0
 RECLTD,pro,PRO_5,Operating profit margin above 25% indicates strong pricing power and cost discipline,95.0
-RECLTD,pro,PRO_6,Net profit compounding at above 20% over 5 years creates significant shareholder value,76.78
-RECLTD,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings quality and compounding,84.36
-RELIANCE,con,CON_10,Return on capital employed below 10% suggests the business is not generating sufficient returns on invested capital,70.78
-RELIANCE,pro,PRO_12,Growing asset base funded by internal accruals reflects self-sustaining growth,85.0
-SBILIFE,pro,PRO_11,Revenue growing slower than profits shows improving operating leverage and scale benefits,85.0
-SBILIFE,pro,PRO_3,Debt-free balance sheet provides financial flexibility and eliminates interest burden,98.0
-SBILIFE,pro,PRO_4,Revenue growing at above 15% CAGR over 5 years reflects strong business momentum,88.64
-SBILIFE,pro,PRO_7,Very high interest coverage ratio reflects negligible financial stress from debt servicing,90.0
-SBIN,con,CON_10,Return on capital employed below 10% suggests the business is not generating sufficient returns on invested capital,77.68
-SBIN,con,CON_6,Interest coverage ratio below 1.5x indicates the company is at risk of not meeting its debt obligations,77.33
-SBIN,pro,PRO_6,Net profit compounding at above 20% over 5 years creates significant shareholder value,82.95
-SBIN,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings quality and compounding,91.69
-SHREECEM,pro,PRO_11,Revenue growing slower than profits shows improving operating leverage and scale benefits,85.0
-SHREECEM,pro,PRO_12,Growing asset base funded by internal accruals reflects self-sustaining growth,85.0
-SHRIRAMFIN,con,CON_11,Net debt exceeding 3 times EBITDA is a high leverage ratio and limits financial flexibility,98.0
-SHRIRAMFIN,con,CON_2,Free cash flow negative for 3 consecutive years raises concern about cash generation quality,92.0
-SHRIRAMFIN,con,CON_8,Rising debt-to-equity ratio over 3 years suggests increasing financial leverage risk,80.0
-SHRIRAMFIN,pro,PRO_4,Revenue growing at above 15% CAGR over 5 years reflects strong business momentum,78.41
+RECLTD,pro,PRO_11,Revenue growing slower than profits indicates improving operating leverage and scale benefits,85.0
+RECLTD,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+RECLTD,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings compounding,77.01
+RECLTD,con,CON_5,Net debt exceeding 3 times EBITDA indicates high leverage and reduced financial flexibility,95.0
+RECLTD,con,CON_4,Debt-to-equity above 2x indicates elevated financial leverage and balance-sheet risk,92.89
+RECLTD,con,CON_2,Negative recent free cash flow indicates pressure on internally generated cash,90.0
+RECLTD,con,CON_8,Rising borrowings over consecutive periods suggest increasing financial leverage risk,90.0
+RELIANCE,pro,PRO_11,Revenue growing slower than profits indicates improving operating leverage and scale benefits,85.0
+RELIANCE,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+RELIANCE,con,CON_1,Return on equity below 10% indicates relatively weak shareholder capital efficiency,85.0
+RELIANCE,con,CON_10,Return on capital employed below 10% suggests weak returns on invested capital,85.0
+SBILIFE,pro,PRO_3,Debt-free balance sheet provides financial flexibility and minimizes interest burden,98.0
+SBILIFE,pro,PRO_7,Strong interest coverage indicates limited financial stress from debt servicing,90.0
+SBILIFE,pro,PRO_4,Revenue growing at above 15% CAGR over 5 years reflects strong business momentum,88.46
+SBILIFE,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+SBILIFE,con,CON_2,Negative recent free cash flow indicates pressure on internally generated cash,90.0
+SBILIFE,con,CON_9,Operating profit margin below 10% indicates limited operating profitability,80.0
+SBIN,pro,PRO_6,Net profit compounding at above 20% over 5 years indicates strong earnings growth,95.0
+SBIN,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings compounding,95.0
+SBIN,pro,PRO_11,Revenue growing slower than profits indicates improving operating leverage and scale benefits,85.0
+SBIN,con,CON_10,Return on capital employed below 10% suggests weak returns on invested capital,85.0
+SBIN,con,CON_9,Operating profit margin below 10% indicates limited operating profitability,80.0
+SBIN,con,CON_6,Interest coverage below 1.5x indicates elevated risk in meeting debt-servicing obligations,76.49
+SHREECEM,pro,PRO_7,Strong interest coverage indicates limited financial stress from debt servicing,90.0
+SHREECEM,pro,PRO_11,Revenue growing slower than profits indicates improving operating leverage and scale benefits,85.0
+SHREECEM,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+SHREECEM,con,FALLBACK_CON_ROE,Return on equity of 12.20% is below a stronger double-digit efficiency benchmark,70.0
+SHRIRAMFIN,pro,PRO_11,Revenue growing slower than profits indicates improving operating leverage and scale benefits,85.0
+SHRIRAMFIN,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
 SHRIRAMFIN,pro,PRO_5,Operating profit margin above 25% indicates strong pricing power and cost discipline,78.0
-SHRIRAMFIN,pro,PRO_6,Net profit compounding at above 20% over 5 years creates significant shareholder value,85.53
-SHRIRAMFIN,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings quality and compounding,77.67
-SIEMENS,pro,PRO_7,Very high interest coverage ratio reflects negligible financial stress from debt servicing,90.0
-SIEMENS,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings quality and compounding,76.97
-SUNPHARMA,pro,PRO_12,Growing asset base funded by internal accruals reflects self-sustaining growth,85.0
+SHRIRAMFIN,pro,PRO_4,Revenue growing at above 15% CAGR over 5 years reflects strong business momentum,77.11
+SHRIRAMFIN,pro,PRO_6,Net profit compounding at above 20% over 5 years indicates strong earnings growth,75.24
+SHRIRAMFIN,con,CON_5,Net debt exceeding 3 times EBITDA indicates high leverage and reduced financial flexibility,95.0
+SHRIRAMFIN,con,CON_2,Negative recent free cash flow indicates pressure on internally generated cash,90.0
+SHRIRAMFIN,con,CON_8,Rising borrowings over consecutive periods suggest increasing financial leverage risk,90.0
+SHRIRAMFIN,con,CON_4,Debt-to-equity above 2x indicates elevated financial leverage and balance-sheet risk,79.83
+SIEMENS,pro,PRO_7,Strong interest coverage indicates limited financial stress from debt servicing,90.0
+SIEMENS,pro,PRO_11,Revenue growing slower than profits indicates improving operating leverage and scale benefits,85.0
+SIEMENS,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+SIEMENS,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings compounding,76.97
+SIEMENS,con,FALLBACK_CON_MARGIN,Current operating margin of 14.00% leaves scope for further improvement in operating efficiency,65.0
+SUNPHARMA,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings compounding,91.69
+SUNPHARMA,pro,PRO_7,Strong interest coverage indicates limited financial stress from debt servicing,90.0
+SUNPHARMA,pro,PRO_11,Revenue growing slower than profits indicates improving operating leverage and scale benefits,85.0
+SUNPHARMA,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+SUNPHARMA,pro,PRO_6,Net profit compounding at above 20% over 5 years indicates strong earnings growth,76.81
 SUNPHARMA,pro,PRO_5,Operating profit margin above 25% indicates strong pricing power and cost discipline,74.0
-SUNPHARMA,pro,PRO_6,Net profit compounding at above 20% over 5 years creates significant shareholder value,72.48
-SUNPHARMA,pro,PRO_7,Very high interest coverage ratio reflects negligible financial stress from debt servicing,90.0
-SUNPHARMA,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings quality and compounding,82.78
-TATACONSUM,pro,PRO_2,Strong free cash flow generation over 5 years signals healthy business fundamentals,95.0
-TATACONSUM,pro,PRO_6,Net profit compounding at above 20% over 5 years creates significant shareholder value,70.79
-TATACONSUM,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings quality and compounding,76.2
-TATAMOTORS,pro,PRO_12,Growing asset base funded by internal accruals reflects self-sustaining growth,85.0
-TATAPOWER,con,CON_11,Net debt exceeding 3 times EBITDA is a high leverage ratio and limits financial flexibility,82.13
-TATAPOWER,con,CON_8,Rising debt-to-equity ratio over 3 years suggests increasing financial leverage risk,80.0
-TATAPOWER,pro,PRO_4,Revenue growing at above 15% CAGR over 5 years reflects strong business momentum,73.71
-TATAPOWER,pro,PRO_6,Net profit compounding at above 20% over 5 years creates significant shareholder value,80.98
-TATAPOWER,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings quality and compounding,84.36
-TATASTEEL,con,CON_10,Return on capital employed below 10% suggests the business is not generating sufficient returns on invested capital,75.96
-TATASTEEL,con,CON_5,Revenue contraction over 2 consecutive years indicates demand weakness or market share loss,90.0
-TATASTEEL,con,CON_8,Rising debt-to-equity ratio over 3 years suggests increasing financial leverage risk,80.0
-TATASTEEL,pro,PRO_2,Strong free cash flow generation over 5 years signals healthy business fundamentals,95.0
-TCS,pro,PRO_11,Revenue growing slower than profits shows improving operating leverage and scale benefits,85.0
-TCS,pro,PRO_2,Strong free cash flow generation over 5 years signals healthy business fundamentals,95.0
+SUNPHARMA,con,FALLBACK_CON_MARGIN,Current operating margin of 27.00% leaves scope for further improvement in operating efficiency,65.0
+TATACONSUM,pro,PRO_2,Strong free cash flow generation over 5 years signals healthy internal cash generation,95.0
+TATACONSUM,pro,PRO_7,Strong interest coverage indicates limited financial stress from debt servicing,90.0
+TATACONSUM,pro,PRO_11,Revenue growing slower than profits indicates improving operating leverage and scale benefits,85.0
+TATACONSUM,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+TATACONSUM,pro,PRO_6,Net profit compounding at above 20% over 5 years indicates strong earnings growth,72.4
+TATACONSUM,pro,PRO_4,Revenue growing at above 15% CAGR over 5 years reflects strong business momentum,71.92
+TATACONSUM,con,CON_1,Return on equity below 10% indicates relatively weak shareholder capital efficiency,85.0
+TATAMOTORS,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+TATAMOTORS,con,FALLBACK_CON_ICR,Interest coverage of 3.80x indicates less headroom for debt servicing than stronger balance sheets,70.0
+TATAPOWER,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+TATAPOWER,pro,PRO_4,Revenue growing at above 15% CAGR over 5 years reflects strong business momentum,71.02
+TATAPOWER,con,CON_8,Rising borrowings over consecutive periods suggest increasing financial leverage risk,90.0
+TATAPOWER,con,CON_5,Net debt exceeding 3 times EBITDA indicates high leverage and reduced financial flexibility,78.57
+TATASTEEL,pro,PRO_2,Strong free cash flow generation over 5 years signals healthy internal cash generation,95.0
+TATASTEEL,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+TATASTEEL,con,CON_7,Revenue declining for consecutive periods indicates weakening top-line momentum,90.0
+TATASTEEL,con,CON_8,Rising borrowings over consecutive periods suggest increasing financial leverage risk,90.0
+TATASTEEL,con,CON_11,Net profit declining across consecutive periods indicates weakening earnings momentum,90.0
+TATASTEEL,con,CON_12,Declining EPS across consecutive periods indicates pressure on per-share earnings,90.0
+TATASTEEL,con,CON_1,Return on equity below 10% indicates relatively weak shareholder capital efficiency,85.0
+TATASTEEL,con,CON_10,Return on capital employed below 10% suggests weak returns on invested capital,85.0
+TATASTEEL,con,CON_6,Interest coverage below 1.5x indicates elevated risk in meeting debt-servicing obligations,81.53
+TCS,pro,PRO_2,Strong free cash flow generation over 5 years signals healthy internal cash generation,95.0
+TCS,pro,PRO_7,Strong interest coverage indicates limited financial stress from debt servicing,90.0
+TCS,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
 TCS,pro,PRO_5,Operating profit margin above 25% indicates strong pricing power and cost discipline,74.0
-TCS,pro,PRO_7,Very high interest coverage ratio reflects negligible financial stress from debt servicing,90.0
-TECHM,pro,PRO_11,Revenue growing slower than profits shows improving operating leverage and scale benefits,85.0
-TECHM,pro,PRO_2,Strong free cash flow generation over 5 years signals healthy business fundamentals,95.0
-TECHM,pro,PRO_7,Very high interest coverage ratio reflects negligible financial stress from debt servicing,90.0
-TITAN,con,CON_1,Debt-to-equity ratio of 2.22 is elevated for a non-financial company and warrants monitoring,71.79
-TITAN,con,CON_11,Net debt exceeding 3 times EBITDA is a high leverage ratio and limits financial flexibility,80.42
-TITAN,con,CON_8,Rising debt-to-equity ratio over 3 years suggests increasing financial leverage risk,80.0
-TITAN,pro,PRO_11,Revenue growing slower than profits shows improving operating leverage and scale benefits,85.0
-TITAN,pro,PRO_4,Revenue growing at above 15% CAGR over 5 years reflects strong business momentum,81.87
-TITAN,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings quality and compounding,72.74
-TORNTPHARM,pro,PRO_12,Growing asset base funded by internal accruals reflects self-sustaining growth,85.0
-TORNTPHARM,pro,PRO_2,Strong free cash flow generation over 5 years signals healthy business fundamentals,95.0
+TCS,con,CON_1,Return on equity below 10% indicates relatively weak shareholder capital efficiency,85.0
+TECHM,pro,PRO_2,Strong free cash flow generation over 5 years signals healthy internal cash generation,95.0
+TECHM,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+TECHM,con,CON_11,Net profit declining across consecutive periods indicates weakening earnings momentum,90.0
+TECHM,con,CON_12,Declining EPS across consecutive periods indicates pressure on per-share earnings,90.0
+TECHM,con,CON_1,Return on equity below 10% indicates relatively weak shareholder capital efficiency,85.0
+TITAN,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+TITAN,pro,PRO_4,Revenue growing at above 15% CAGR over 5 years reflects strong business momentum,81.79
+TITAN,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings compounding,76.76
+TITAN,pro,PRO_6,Net profit compounding at above 20% over 5 years indicates strong earnings growth,70.41
+TITAN,con,CON_8,Rising borrowings over consecutive periods suggest increasing financial leverage risk,90.0
+TITAN,con,CON_5,Net debt exceeding 3 times EBITDA indicates high leverage and reduced financial flexibility,77.71
+TITAN,con,CON_4,Debt-to-equity above 2x indicates elevated financial leverage and balance-sheet risk,71.12
+TORNTPHARM,pro,PRO_2,Strong free cash flow generation over 5 years signals healthy internal cash generation,95.0
+TORNTPHARM,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings compounding,93.09
+TORNTPHARM,pro,PRO_6,Net profit compounding at above 20% over 5 years indicates strong earnings growth,85.89
+TORNTPHARM,pro,PRO_11,Revenue growing slower than profits indicates improving operating leverage and scale benefits,85.0
+TORNTPHARM,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
 TORNTPHARM,pro,PRO_5,Operating profit margin above 25% indicates strong pricing power and cost discipline,84.0
-TORNTPHARM,pro,PRO_7,Very high interest coverage ratio reflects negligible financial stress from debt servicing,90.0
-TRENT,pro,PRO_12,Growing asset base funded by internal accruals reflects self-sustaining growth,85.0
+TORNTPHARM,con,FALLBACK_CON_REVENUE,Revenue CAGR of 6.93% indicates relatively modest historical top-line growth,70.0
 TRENT,pro,PRO_4,Revenue growing at above 15% CAGR over 5 years reflects strong business momentum,95.0
-TRENT,pro,PRO_6,Net profit compounding at above 20% over 5 years creates significant shareholder value,95.0
-TRENT,pro,PRO_7,Very high interest coverage ratio reflects negligible financial stress from debt servicing,90.0
-TRENT,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings quality and compounding,95.0
-TVSMOTOR,con,CON_2,Free cash flow negative for 3 consecutive years raises concern about cash generation quality,92.0
-TVSMOTOR,pro,PRO_12,Growing asset base funded by internal accruals reflects self-sustaining growth,85.0
-TVSMOTOR,pro,PRO_4,Revenue growing at above 15% CAGR over 5 years reflects strong business momentum,75.74
-TVSMOTOR,pro,PRO_6,Net profit compounding at above 20% over 5 years creates significant shareholder value,79.72
-TVSMOTOR,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings quality and compounding,87.15
+TRENT,pro,PRO_6,Net profit compounding at above 20% over 5 years indicates strong earnings growth,95.0
+TRENT,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings compounding,95.0
+TRENT,pro,PRO_11,Revenue growing slower than profits indicates improving operating leverage and scale benefits,85.0
+TRENT,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+TRENT,con,FALLBACK_CON_MARGIN,Current operating margin of 16.00% leaves scope for further improvement in operating efficiency,65.0
+TVSMOTOR,pro,PRO_11,Revenue growing slower than profits indicates improving operating leverage and scale benefits,85.0
+TVSMOTOR,pro,PRO_12,Growing asset base indicates expansion of the underlying operating platform,85.0
+TVSMOTOR,pro,PRO_9,Earnings per share growing above 15% CAGR indicates strong earnings compounding,76.2
+TVSMOTOR,con,CON_2,Negative recent free cash flow indicates pressure on internally generated cash,90.0

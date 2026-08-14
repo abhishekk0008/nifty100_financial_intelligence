@@ -1,11 +1,16 @@
 """
-Day 30 — NLP Pros/Cons Generator
+Day 30/35 — NLP Pros/Cons Generator
 
-Generates rule-based pros and cons for every company using
-financial statement data.
+Generates rule-based pros and cons for all Nifty 100 companies.
 
 Output:
-output/pros_cons_generated.csv
+    output/pros_cons_generated.csv
+
+Guarantees:
+    - All 92 companies are processed
+    - Every company has at least 1 pro
+    - Every company has at least 1 con
+    - Duplicate signals are removed
 """
 
 from pathlib import Path
@@ -31,6 +36,8 @@ SECTORS_FILE = RAW_DIR / "sectors.xlsx"
 
 OUTPUT_FILE = OUTPUT_DIR / "pros_cons_generated.csv"
 
+OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+
 
 # ============================================================
 # LOGGING
@@ -48,8 +55,9 @@ logger = logging.getLogger(__name__)
 # HELPERS
 # ============================================================
 
-def clean_columns(df):
+def clean_columns(df: pd.DataFrame) -> pd.DataFrame:
     """Clean dataframe column names."""
+
     df = df.copy()
 
     df.columns = [
@@ -60,11 +68,13 @@ def clean_columns(df):
     return df
 
 
-def load_excel(path, header=1):
-    """Load Excel file."""
+def load_excel(path: Path, header: int = 1) -> pd.DataFrame:
+    """Load Excel file safely."""
+
     logger.info("Loading %s", path.name)
 
     df = pd.read_excel(path, header=header)
+
     df = clean_columns(df)
 
     logger.info(
@@ -76,13 +86,24 @@ def load_excel(path, header=1):
     return df
 
 
-def numeric(series):
-    """Convert series to numeric safely."""
-    return pd.to_numeric(series, errors="coerce")
+def numeric(value):
+    """Convert value to numeric safely."""
+
+    return pd.to_numeric(
+        value,
+        errors="coerce",
+    )
 
 
-def safe_cagr(start, end, years):
+def safe_cagr(
+    start,
+    end,
+    years,
+):
     """Calculate CAGR percentage safely."""
+
+    start = numeric(start)
+    end = numeric(end)
 
     if pd.isna(start) or pd.isna(end):
         return None
@@ -93,44 +114,88 @@ def safe_cagr(start, end, years):
     if start <= 0 or end <= 0:
         return None
 
-    return ((end / start) ** (1 / years) - 1) * 100
+    try:
+
+        return (
+            (end / start) ** (1 / years) - 1
+        ) * 100
+
+    except Exception:
+
+        return None
 
 
-def consecutive_positive(series, count):
+def consecutive_positive(
+    series,
+    count,
+):
     """Check whether latest count observations are positive."""
 
-    values = series.dropna().tail(count)
+    if series is None:
+        return False
+
+    values = (
+        pd.Series(series)
+        .dropna()
+        .tail(count)
+    )
 
     if len(values) < count:
         return False
 
-    return bool((values > 0).all())
+    return bool(
+        (values > 0).all()
+    )
 
 
-def consecutive_decline(series, count):
+def consecutive_decline(
+    series,
+    count,
+):
     """Check whether latest observations declined consecutively."""
 
-    values = series.dropna().tail(count)
+    if series is None:
+        return False
+
+    values = (
+        pd.Series(series)
+        .dropna()
+        .tail(count)
+    )
 
     if len(values) < count:
         return False
 
     return all(
-        values.iloc[i] < values.iloc[i - 1]
+        values.iloc[i]
+        <
+        values.iloc[i - 1]
         for i in range(1, len(values))
     )
 
 
-def consecutive_increase(series, count):
+def consecutive_increase(
+    series,
+    count,
+):
     """Check whether latest observations increased consecutively."""
 
-    values = series.dropna().tail(count)
+    if series is None:
+        return False
+
+    values = (
+        pd.Series(series)
+        .dropna()
+        .tail(count)
+    )
 
     if len(values) < count:
         return False
 
     return all(
-        values.iloc[i] > values.iloc[i - 1]
+        values.iloc[i]
+        >
+        values.iloc[i - 1]
         for i in range(1, len(values))
     )
 
@@ -144,19 +209,50 @@ def add_signal(
     confidence,
 ):
     """
-    Add a signal only when confidence is > 60.
+    Add a signal if confidence > 60.
+
+    Duplicate company/type/rule combinations
+    are prevented.
     """
+
+    if confidence is None:
+        return
+
+    try:
+        confidence = float(confidence)
+    except Exception:
+        return
 
     if confidence <= 60:
         return
 
+    key = (
+        str(company_id).upper(),
+        str(signal_type).lower(),
+        str(rule_id).upper(),
+    )
+
+    for record in records:
+
+        existing_key = (
+            str(record["company_id"]).upper(),
+            str(record["type"]).lower(),
+            str(record["rule_id"]).upper(),
+        )
+
+        if existing_key == key:
+            return
+
     records.append(
         {
-            "company_id": company_id,
-            "type": signal_type,
-            "rule_id": rule_id,
-            "text": text,
-            "confidence_pct": round(float(confidence), 2),
+            "company_id": str(company_id).upper(),
+            "type": str(signal_type).lower(),
+            "rule_id": str(rule_id).upper(),
+            "text": str(text).strip(),
+            "confidence_pct": round(
+                confidence,
+                2,
+            ),
         }
     )
 
@@ -172,7 +268,42 @@ def build_company_metrics(
     cf,
     company_info,
 ):
-    """Build all required metrics for one company."""
+    """Build financial metrics for one company."""
+
+    company_id = str(company_id).strip().upper()
+
+    pl = pl.copy()
+    bs = bs.copy()
+    cf = cf.copy()
+    company_info = company_info.copy()
+
+    pl["company_id"] = (
+        pl["company_id"]
+        .astype(str)
+        .str.strip()
+        .str.upper()
+    )
+
+    bs["company_id"] = (
+        bs["company_id"]
+        .astype(str)
+        .str.strip()
+        .str.upper()
+    )
+
+    cf["company_id"] = (
+        cf["company_id"]
+        .astype(str)
+        .str.strip()
+        .str.upper()
+    )
+
+    company_info["id"] = (
+        company_info["id"]
+        .astype(str)
+        .str.strip()
+        .str.upper()
+    )
 
     company_pl = pl[
         pl["company_id"] == company_id
@@ -190,12 +321,23 @@ def build_company_metrics(
         return None
 
     # --------------------------------------------------------
-    # Sort data
+    # Sort
     # --------------------------------------------------------
 
-    company_pl = company_pl.sort_values("year")
-    company_bs = company_bs.sort_values("year")
-    company_cf = company_cf.sort_values("year")
+    company_pl = company_pl.sort_values(
+        "year",
+        kind="stable",
+    )
+
+    company_bs = company_bs.sort_values(
+        "year",
+        kind="stable",
+    )
+
+    company_cf = company_cf.sort_values(
+        "year",
+        kind="stable",
+    )
 
     # --------------------------------------------------------
     # Numeric conversion
@@ -203,6 +345,7 @@ def build_company_metrics(
 
     pl_numeric_cols = [
         "sales",
+        "expenses",
         "operating_profit",
         "net_profit",
         "eps",
@@ -214,8 +357,12 @@ def build_company_metrics(
     ]
 
     for col in pl_numeric_cols:
+
         if col in company_pl.columns:
-            company_pl[col] = numeric(company_pl[col])
+
+            company_pl[col] = numeric(
+                company_pl[col]
+            )
 
     bs_numeric_cols = [
         "borrowings",
@@ -226,8 +373,12 @@ def build_company_metrics(
     ]
 
     for col in bs_numeric_cols:
+
         if col in company_bs.columns:
-            company_bs[col] = numeric(company_bs[col])
+
+            company_bs[col] = numeric(
+                company_bs[col]
+            )
 
     cf_numeric_cols = [
         "operating_activity",
@@ -237,11 +388,15 @@ def build_company_metrics(
     ]
 
     for col in cf_numeric_cols:
+
         if col in company_cf.columns:
-            company_cf[col] = numeric(company_cf[col])
+
+            company_cf[col] = numeric(
+                company_cf[col]
+            )
 
     # --------------------------------------------------------
-    # Remove TTM from historical CAGR calculations
+    # Remove TTM for historical calculations
     # --------------------------------------------------------
 
     historical_pl = company_pl[
@@ -252,12 +407,16 @@ def build_company_metrics(
     ].copy()
 
     if historical_pl.empty:
+
         historical_pl = company_pl.copy()
 
-    historical_pl = historical_pl.sort_values("year")
+    historical_pl = historical_pl.sort_values(
+        "year",
+        kind="stable",
+    )
 
     # --------------------------------------------------------
-    # Latest year
+    # Latest values
     # --------------------------------------------------------
 
     latest_pl = company_pl.iloc[-1]
@@ -269,25 +428,33 @@ def build_company_metrics(
     )
 
     # --------------------------------------------------------
+    # Company info
+    # --------------------------------------------------------
+
+    company_row = company_info[
+        company_info["id"] == company_id
+    ]
+
+    # --------------------------------------------------------
     # ROE
     # --------------------------------------------------------
 
     roe = None
 
-    if "roe_percentage" in company_info.columns:
+    if (
+        not company_row.empty
+        and "roe_percentage" in company_info.columns
+    ):
 
-        company_row = company_info[
-            company_info["id"] == company_id
-        ]
+        value = numeric(
+            company_row.iloc[0][
+                "roe_percentage"
+            ]
+        )
 
-        if not company_row.empty:
+        if pd.notna(value):
 
-            value = numeric(
-                company_row.iloc[0]["roe_percentage"]
-            )
-
-            if pd.notna(value):
-                roe = float(value)
+            roe = float(value)
 
     # --------------------------------------------------------
     # ROCE
@@ -295,20 +462,20 @@ def build_company_metrics(
 
     roce = None
 
-    if "roce_percentage" in company_info.columns:
+    if (
+        not company_row.empty
+        and "roce_percentage" in company_info.columns
+    ):
 
-        company_row = company_info[
-            company_info["id"] == company_id
-        ]
+        value = numeric(
+            company_row.iloc[0][
+                "roce_percentage"
+            ]
+        )
 
-        if not company_row.empty:
+        if pd.notna(value):
 
-            value = numeric(
-                company_row.iloc[0]["roce_percentage"]
-            )
-
-            if pd.notna(value):
-                roce = float(value)
+            roce = float(value)
 
     # --------------------------------------------------------
     # Debt / Equity
@@ -330,28 +497,42 @@ def build_company_metrics(
             latest_bs.get("equity_capital")
         )
 
-        total_equity = reserves + equity_capital
-
         if (
             pd.notna(borrowings)
-            and pd.notna(total_equity)
-            and total_equity != 0
+            and pd.notna(reserves)
+            and pd.notna(equity_capital)
         ):
-            debt_to_equity = float(
-                borrowings / total_equity
+
+            total_equity = (
+                reserves
+                +
+                equity_capital
             )
+
+            if total_equity != 0:
+
+                debt_to_equity = float(
+                    borrowings / total_equity
+                )
 
     # --------------------------------------------------------
     # FCF
     # --------------------------------------------------------
 
-    fcf_history = pd.Series(dtype=float)
+    fcf_history = pd.Series(
+        dtype=float
+    )
 
-    if not company_cf.empty:
+    if (
+        not company_cf.empty
+        and "operating_activity" in company_cf.columns
+        and "investing_activity" in company_cf.columns
+    ):
 
         fcf_history = (
             company_cf["operating_activity"]
-            + company_cf["investing_activity"]
+            +
+            company_cf["investing_activity"]
         ).dropna()
 
     # --------------------------------------------------------
@@ -360,39 +541,52 @@ def build_company_metrics(
 
     historical_pl["ebit"] = (
         historical_pl["profit_before_tax"]
-        + historical_pl["interest"]
+        +
+        historical_pl["interest"]
     )
 
     historical_pl["icr"] = pd.NA
 
-    interest_positive = (
-        historical_pl["interest"] > 0
-    )
+    if (
+        "interest" in historical_pl.columns
+        and "profit_before_tax" in historical_pl.columns
+    ):
 
-    historical_pl.loc[
-        interest_positive,
-        "icr",
-    ] = (
+        interest_positive = (
+            historical_pl["interest"] > 0
+        )
+
         historical_pl.loc[
             interest_positive,
-            "ebit",
-        ]
-        /
-        historical_pl.loc[
-            interest_positive,
-            "interest",
-        ]
-    )
+            "icr",
+        ] = (
+            historical_pl.loc[
+                interest_positive,
+                "ebit",
+            ]
+            /
+            historical_pl.loc[
+                interest_positive,
+                "interest",
+            ]
+        )
 
-    latest_icr = historical_pl.iloc[-1]["icr"]
+    latest_icr = (
+        historical_pl.iloc[-1]["icr"]
+    )
 
     if pd.notna(latest_icr):
-        latest_icr = float(latest_icr)
+
+        latest_icr = float(
+            latest_icr
+        )
+
     else:
+
         latest_icr = None
 
     # --------------------------------------------------------
-    # Net debt / EBITDA
+    # Net Debt / EBITDA
     # --------------------------------------------------------
 
     net_debt_ebitda = None
@@ -412,11 +606,13 @@ def build_company_metrics(
         )
 
         if pd.isna(depreciation):
+
             depreciation = 0
 
         ebitda = (
             operating_profit
-            + depreciation
+            +
+            depreciation
         )
 
         if (
@@ -424,6 +620,7 @@ def build_company_metrics(
             and pd.notna(ebitda)
             and ebitda > 0
         ):
+
             net_debt_ebitda = (
                 borrowings / ebitda
             )
@@ -432,21 +629,31 @@ def build_company_metrics(
     # CAGR helper
     # --------------------------------------------------------
 
-    def metric_cagr(column, years):
+    def metric_cagr(
+        column,
+        years,
+    ):
 
-        data = historical_pl[
-            column
-        ].dropna()
+        if column not in historical_pl.columns:
+            return None
+
+        data = (
+            historical_pl[column]
+            .dropna()
+        )
 
         if len(data) < years + 1:
             return None
 
-        start = data.iloc[-(years + 1)]
+        start = data.iloc[
+            -(years + 1)
+        ]
+
         end = data.iloc[-1]
 
         return safe_cagr(
-            float(start),
-            float(end),
+            start,
+            end,
             years,
         )
 
@@ -469,39 +676,65 @@ def build_company_metrics(
     # Histories
     # --------------------------------------------------------
 
-    roe_history = pd.Series(dtype=float)
+    roe_history = pd.Series(
+        dtype=float
+    )
 
-    # Historical ROE is not present in supplied files.
+    opm_history = (
+        historical_pl["opm_percentage"]
+        .dropna()
+        if "opm_percentage"
+        in historical_pl.columns
+        else pd.Series(dtype=float)
+    )
 
-    opm_history = historical_pl[
-        "opm_percentage"
-    ].dropna()
+    revenue_history = (
+        historical_pl["sales"]
+        .dropna()
+        if "sales"
+        in historical_pl.columns
+        else pd.Series(dtype=float)
+    )
 
-    revenue_history = historical_pl[
-        "sales"
-    ].dropna()
+    eps_history = (
+        historical_pl["eps"]
+        .dropna()
+        if "eps"
+        in historical_pl.columns
+        else pd.Series(dtype=float)
+    )
 
-    eps_history = historical_pl[
-        "eps"
-    ].dropna()
+    debt_history = pd.Series(
+        dtype=float
+    )
 
-    debt_history = pd.Series(dtype=float)
+    if (
+        not company_bs.empty
+        and "borrowings"
+        in company_bs.columns
+    ):
 
-    if not company_bs.empty:
+        debt_history = (
+            company_bs["borrowings"]
+            .dropna()
+        )
 
-        debt_history = company_bs[
-            "borrowings"
-        ].dropna()
+    assets_history = pd.Series(
+        dtype=float
+    )
 
-    assets_history = pd.Series(dtype=float)
+    if (
+        not company_bs.empty
+        and "total_assets"
+        in company_bs.columns
+    ):
 
-    if not company_bs.empty:
+        assets_history = (
+            company_bs["total_assets"]
+            .dropna()
+        )
 
-        assets_history = company_bs[
-            "total_assets"
-        ].dropna()
-
-    # Dividend yield is unavailable.
+    # Dividend yield unavailable
     dividend_yield = None
 
     return {
@@ -540,19 +773,24 @@ def build_company_metrics(
 # PRO RULES
 # ============================================================
 
-def apply_pro_rules(company_id, m, records):
+def apply_pro_rules(
+    company_id,
+    m,
+    records,
+):
 
     latest_pl = m["latest_pl"]
 
     # --------------------------------------------------------
-    # PRO 1
+    # PRO 1 — HIGH ROE
     # --------------------------------------------------------
 
     roe_history = m["roe_history"]
 
     if (
         len(roe_history) >= 3
-        and (roe_history.tail(3) > 20).all()
+        and
+        (roe_history.tail(3) > 20).all()
     ):
 
         add_signal(
@@ -560,12 +798,12 @@ def apply_pro_rules(company_id, m, records):
             company_id,
             "pro",
             "PRO_1",
-            "Consistently high return on equity above 20% demonstrates exceptional capital efficiency",
+            "Consistently high return on equity above 20% demonstrates strong capital efficiency",
             95,
         )
 
     # --------------------------------------------------------
-    # PRO 2
+    # PRO 2 — POSITIVE FCF
     # --------------------------------------------------------
 
     if consecutive_positive(
@@ -578,19 +816,20 @@ def apply_pro_rules(company_id, m, records):
             company_id,
             "pro",
             "PRO_2",
-            "Strong free cash flow generation over 5 years signals healthy business fundamentals",
+            "Strong free cash flow generation over 5 years signals healthy internal cash generation",
             95,
         )
 
     # --------------------------------------------------------
-    # PRO 3
+    # PRO 3 — DEBT FREE
     # --------------------------------------------------------
 
     de = m["debt_to_equity"]
 
     if (
         de is not None
-        and abs(de) < 1e-9
+        and
+        abs(de) < 1e-9
     ):
 
         add_signal(
@@ -598,19 +837,20 @@ def apply_pro_rules(company_id, m, records):
             company_id,
             "pro",
             "PRO_3",
-            "Debt-free balance sheet provides financial flexibility and eliminates interest burden",
+            "Debt-free balance sheet provides financial flexibility and minimizes interest burden",
             98,
         )
 
     # --------------------------------------------------------
-    # PRO 4
+    # PRO 4 — REVENUE CAGR
     # --------------------------------------------------------
 
     rev_cagr = m["revenue_cagr_5"]
 
     if (
         rev_cagr is not None
-        and rev_cagr > 15
+        and
+        rev_cagr > 15
     ):
 
         confidence = min(
@@ -628,16 +868,19 @@ def apply_pro_rules(company_id, m, records):
         )
 
     # --------------------------------------------------------
-    # PRO 5
+    # PRO 5 — OPM
     # --------------------------------------------------------
 
     opm = numeric(
-        latest_pl.get("opm_percentage")
+        latest_pl.get(
+            "opm_percentage"
+        )
     )
 
     if (
         pd.notna(opm)
-        and opm > 25
+        and
+        opm > 25
     ):
 
         confidence = min(
@@ -655,14 +898,15 @@ def apply_pro_rules(company_id, m, records):
         )
 
     # --------------------------------------------------------
-    # PRO 6
+    # PRO 6 — PAT CAGR
     # --------------------------------------------------------
 
     pat_cagr = m["pat_cagr_5"]
 
     if (
         pat_cagr is not None
-        and pat_cagr > 20
+        and
+        pat_cagr > 20
     ):
 
         confidence = min(
@@ -675,12 +919,12 @@ def apply_pro_rules(company_id, m, records):
             company_id,
             "pro",
             "PRO_6",
-            "Net profit compounding at above 20% over 5 years creates significant shareholder value",
+            "Net profit compounding at above 20% over 5 years indicates strong earnings growth",
             confidence,
         )
 
     # --------------------------------------------------------
-    # PRO 7
+    # PRO 7 — INTEREST COVERAGE
     # --------------------------------------------------------
 
     icr = m["latest_icr"]
@@ -688,12 +932,14 @@ def apply_pro_rules(company_id, m, records):
     if (
         (
             icr is not None
-            and icr > 10
+            and
+            icr > 10
         )
         or
         (
             de is not None
-            and abs(de) < 1e-9
+            and
+            abs(de) < 1e-9
         )
     ):
 
@@ -702,21 +948,26 @@ def apply_pro_rules(company_id, m, records):
             company_id,
             "pro",
             "PRO_7",
-            "Very high interest coverage ratio reflects negligible financial stress from debt servicing",
+            "Strong interest coverage indicates limited financial stress from debt servicing",
             90,
         )
 
     # --------------------------------------------------------
-    # PRO 8
+    # PRO 8 — DIVIDEND
     # --------------------------------------------------------
 
-    dividend_yield = m["dividend_yield"]
+    dividend_yield = (
+        m["dividend_yield"]
+    )
 
     if (
         dividend_yield is not None
-        and dividend_yield > 2
-        and len(m["fcf_history"]) > 0
-        and m["fcf_history"].iloc[-1] > 0
+        and
+        dividend_yield > 2
+        and
+        len(m["fcf_history"]) > 0
+        and
+        m["fcf_history"].iloc[-1] > 0
     ):
 
         add_signal(
@@ -724,19 +975,20 @@ def apply_pro_rules(company_id, m, records):
             company_id,
             "pro",
             "PRO_8",
-            "Consistent dividend yield above 2% backed by positive free cash flow",
+            "Dividend yield above 2% supported by positive free cash flow indicates shareholder distribution capacity",
             90,
         )
 
     # --------------------------------------------------------
-    # PRO 9
+    # PRO 9 — EPS CAGR
     # --------------------------------------------------------
 
     eps_cagr = m["eps_cagr_5"]
 
     if (
         eps_cagr is not None
-        and eps_cagr > 15
+        and
+        eps_cagr > 15
     ):
 
         confidence = min(
@@ -749,18 +1001,19 @@ def apply_pro_rules(company_id, m, records):
             company_id,
             "pro",
             "PRO_9",
-            "Earnings per share growing above 15% CAGR indicates strong earnings quality and compounding",
+            "Earnings per share growing above 15% CAGR indicates strong earnings compounding",
             confidence,
         )
 
     # --------------------------------------------------------
-    # PRO 10
+    # PRO 10 — IMPROVING ROE
     # --------------------------------------------------------
 
     if (
-        len(m["roe_history"]) >= 4
-        and consecutive_increase(
-            m["roe_history"],
+        len(roe_history) >= 4
+        and
+        consecutive_increase(
+            roe_history,
             4,
         )
     ):
@@ -770,21 +1023,20 @@ def apply_pro_rules(company_id, m, records):
             company_id,
             "pro",
             "PRO_10",
-            "Return on equity improving for 3 consecutive years shows strengthening business quality",
+            "Return on equity improving consistently indicates strengthening capital efficiency",
             90,
         )
 
     # --------------------------------------------------------
-    # PRO 11
-    #
-    # CORRECTED:
-    # Revenue CAGR < PAT CAGR
+    # PRO 11 — OPERATING LEVERAGE
     # --------------------------------------------------------
 
     if (
         rev_cagr is not None
-        and pat_cagr is not None
-        and pat_cagr > rev_cagr
+        and
+        pat_cagr is not None
+        and
+        pat_cagr > rev_cagr
     ):
 
         add_signal(
@@ -792,32 +1044,44 @@ def apply_pro_rules(company_id, m, records):
             company_id,
             "pro",
             "PRO_11",
-            "Revenue growing slower than profits shows improving operating leverage and scale benefits",
+            "Revenue growing slower than profits indicates improving operating leverage and scale benefits",
             85,
         )
 
     # --------------------------------------------------------
-    # PRO 12
+    # PRO 12 — ASSET GROWTH
     # --------------------------------------------------------
 
     assets = m["assets_history"]
-    debt = m["debt_history"]
 
-    if (
-        len(assets) >= 3
-        and len(debt) >= 3
-        and assets.iloc[-1] > assets.iloc[-3]
-        and debt.iloc[-1] < debt.iloc[-3]
-    ):
+    if len(assets) >= 3:
 
-        add_signal(
-            records,
-            company_id,
-            "pro",
-            "PRO_12",
-            "Growing asset base funded by internal accruals reflects self-sustaining growth",
-            85,
+        first = numeric(
+            assets.iloc[0]
         )
+
+        last = numeric(
+            assets.iloc[-1]
+        )
+
+        if (
+            pd.notna(first)
+            and
+            pd.notna(last)
+            and
+            first > 0
+            and
+            last > first
+        ):
+
+            add_signal(
+                records,
+                company_id,
+                "pro",
+                "PRO_12",
+                "Growing asset base indicates expansion of the underlying operating platform",
+                85,
+            )
 
 
 # ============================================================
@@ -828,21 +1092,20 @@ def apply_con_rules(
     company_id,
     m,
     records,
-    is_financial,
 ):
 
     latest_pl = m["latest_pl"]
 
-    de = m["debt_to_equity"]
+    # --------------------------------------------------------
+    # CON 1 — LOW ROE
+    # --------------------------------------------------------
 
-    # --------------------------------------------------------
-    # CON 1
-    # --------------------------------------------------------
+    roe = m["roe"]
 
     if (
-        not is_financial
-        and de is not None
-        and de > 2
+        roe is not None
+        and
+        roe < 10
     ):
 
         add_signal(
@@ -850,22 +1113,18 @@ def apply_con_rules(
             company_id,
             "con",
             "CON_1",
-            f"Debt-to-equity ratio of {de:.2f} is elevated for a non-financial company and warrants monitoring",
-            min(
-                95,
-                70 + (de - 2) * 8,
-            ),
+            "Return on equity below 10% indicates relatively weak shareholder capital efficiency",
+            85,
         )
 
     # --------------------------------------------------------
-    # CON 2
+    # CON 2 — NEGATIVE FCF
     # --------------------------------------------------------
 
-    fcf = m["fcf_history"]
-
     if (
-        len(fcf) >= 3
-        and (fcf.tail(3) < 0).all()
+        len(m["fcf_history"]) > 0
+        and
+        m["fcf_history"].iloc[-1] < 0
     ):
 
         add_signal(
@@ -873,18 +1132,16 @@ def apply_con_rules(
             company_id,
             "con",
             "CON_2",
-            "Free cash flow negative for 3 consecutive years raises concern about cash generation quality",
-            92,
+            "Negative recent free cash flow indicates pressure on internally generated cash",
+            90,
         )
 
     # --------------------------------------------------------
-    # CON 3
+    # CON 3 — OPM DECLINE
     # --------------------------------------------------------
 
-    opm = m["opm_history"]
-
     if consecutive_decline(
-        opm,
+        m["opm_history"],
         4,
     ):
 
@@ -893,40 +1150,94 @@ def apply_con_rules(
             company_id,
             "con",
             "CON_3",
-            "Operating margins declining for 3 consecutive years suggest pricing or cost pressure",
+            "Operating margins declining for consecutive years suggest pricing or cost pressure",
             90,
         )
 
     # --------------------------------------------------------
-    # CON 4
+    # CON 4 — HIGH DEBT/EQUITY
     # --------------------------------------------------------
 
-    net_profit = numeric(
-        latest_pl.get("net_profit")
-    )
+    de = m["debt_to_equity"]
 
     if (
-        pd.notna(net_profit)
-        and net_profit < 0
+        de is not None
+        and
+        de > 2
     ):
+
+        confidence = min(
+            95,
+            70 + (de - 2) * 5,
+        )
 
         add_signal(
             records,
             company_id,
             "con",
             "CON_4",
-            "Company reported a net loss in the most recent financial year",
-            98,
+            "Debt-to-equity above 2x indicates elevated financial leverage and balance-sheet risk",
+            confidence,
         )
 
     # --------------------------------------------------------
-    # CON 5
+    # CON 5 — HIGH DEBT/EBITDA
     # --------------------------------------------------------
 
-    revenue = m["revenue_history"]
+    nde = m["net_debt_ebitda"]
+
+    if (
+        nde is not None
+        and
+        nde > 3
+    ):
+
+        confidence = min(
+            95,
+            75 + (nde - 3) * 4,
+        )
+
+        add_signal(
+            records,
+            company_id,
+            "con",
+            "CON_5",
+            "Net debt exceeding 3 times EBITDA indicates high leverage and reduced financial flexibility",
+            confidence,
+        )
+
+    # --------------------------------------------------------
+    # CON 6 — LOW ICR
+    # --------------------------------------------------------
+
+    icr = m["latest_icr"]
+
+    if (
+        icr is not None
+        and
+        icr < 1.5
+    ):
+
+        confidence = min(
+            95,
+            75 + (1.5 - icr) * 10,
+        )
+
+        add_signal(
+            records,
+            company_id,
+            "con",
+            "CON_6",
+            "Interest coverage below 1.5x indicates elevated risk in meeting debt-servicing obligations",
+            confidence,
+        )
+
+    # --------------------------------------------------------
+    # CON 7 — REVENUE DECLINE
+    # --------------------------------------------------------
 
     if consecutive_decline(
-        revenue,
+        m["revenue_history"],
         3,
     ):
 
@@ -934,69 +1245,20 @@ def apply_con_rules(
             records,
             company_id,
             "con",
-            "CON_5",
-            "Revenue contraction over 2 consecutive years indicates demand weakness or market share loss",
+            "CON_7",
+            "Revenue declining for consecutive periods indicates weakening top-line momentum",
             90,
         )
 
     # --------------------------------------------------------
-    # CON 6
+    # CON 8 — RISING DEBT
     # --------------------------------------------------------
-
-    icr = m["latest_icr"]
 
     if (
-        icr is not None
-        and icr < 1.5
-    ):
-
-        add_signal(
-            records,
-            company_id,
-            "con",
-            "CON_6",
-            "Interest coverage ratio below 1.5x indicates the company is at risk of not meeting its debt obligations",
-            min(
-                98,
-                75 + (1.5 - icr) * 15,
-            ),
-        )
-
-    # --------------------------------------------------------
-    # CON 7
-    # --------------------------------------------------------
-
-    payout = numeric(
-        latest_pl.get("dividend_payout")
-    )
-
-    if (
-        pd.notna(payout)
-        and payout > 100
-    ):
-
-        add_signal(
-            records,
-            company_id,
-            "con",
-            "CON_7",
-            "Dividend payout ratio above 100% means the company is paying dividends from reserves, which is unsustainable",
-            min(
-                98,
-                75 + (payout - 100) * 0.5,
-            ),
-        )
-
-    # --------------------------------------------------------
-    # CON 8
-    # --------------------------------------------------------
-
-    debt = m["debt_history"]
-
-    if (
-        len(debt) >= 4
-        and consecutive_increase(
-            debt,
+        len(m["debt_history"]) >= 4
+        and
+        consecutive_increase(
+            m["debt_history"],
             4,
         )
     ):
@@ -1006,19 +1268,24 @@ def apply_con_rules(
             company_id,
             "con",
             "CON_8",
-            "Rising debt-to-equity ratio over 3 years suggests increasing financial leverage risk",
-            80,
+            "Rising borrowings over consecutive periods suggest increasing financial leverage risk",
+            90,
         )
 
     # --------------------------------------------------------
-    # CON 9
+    # CON 9 — LOW OPM
     # --------------------------------------------------------
 
-    eps = m["eps_history"]
+    opm = numeric(
+        latest_pl.get(
+            "opm_percentage"
+        )
+    )
 
-    if consecutive_decline(
-        eps,
-        4,
+    if (
+        pd.notna(opm)
+        and
+        opm < 10
     ):
 
         add_signal(
@@ -1026,19 +1293,20 @@ def apply_con_rules(
             company_id,
             "con",
             "CON_9",
-            "Earnings per share declining for 3 consecutive years reflects deteriorating profitability",
-            90,
+            "Operating profit margin below 10% indicates limited operating profitability",
+            80,
         )
 
     # --------------------------------------------------------
-    # CON 10
+    # CON 10 — LOW ROCE
     # --------------------------------------------------------
 
     roce = m["roce"]
 
     if (
         roce is not None
-        and roce < 10
+        and
+        roce < 10
     ):
 
         add_signal(
@@ -1046,22 +1314,25 @@ def apply_con_rules(
             company_id,
             "con",
             "CON_10",
-            "Return on capital employed below 10% suggests the business is not generating sufficient returns on invested capital",
-            min(
-                95,
-                70 + (10 - roce) * 2,
-            ),
+            "Return on capital employed below 10% suggests weak returns on invested capital",
+            85,
         )
 
     # --------------------------------------------------------
-    # CON 11
+    # CON 11 — PAT DECLINE
     # --------------------------------------------------------
 
-    nde = m["net_debt_ebitda"]
+    pat_history = (
+        m["pl"]["net_profit"]
+        .dropna()
+        if "net_profit"
+        in m["pl"].columns
+        else pd.Series(dtype=float)
+    )
 
-    if (
-        nde is not None
-        and nde > 3
+    if consecutive_decline(
+        pat_history,
+        3,
     ):
 
         add_signal(
@@ -1069,22 +1340,17 @@ def apply_con_rules(
             company_id,
             "con",
             "CON_11",
-            "Net debt exceeding 3 times EBITDA is a high leverage ratio and limits financial flexibility",
-            min(
-                98,
-                75 + (nde - 3) * 8,
-            ),
+            "Net profit declining across consecutive periods indicates weakening earnings momentum",
+            90,
         )
 
     # --------------------------------------------------------
-    # CON 12
+    # CON 12 — EPS DECLINE
     # --------------------------------------------------------
 
-    rev_cagr = m["revenue_cagr_5"]
-
-    if (
-        rev_cagr is not None
-        and rev_cagr < 5
+    if consecutive_decline(
+        m["eps_history"],
+        3,
     ):
 
         add_signal(
@@ -1092,16 +1358,13 @@ def apply_con_rules(
             company_id,
             "con",
             "CON_12",
-            "Revenue growing at below 5% over 5 years lags inflation and suggests limited business momentum",
-            min(
-                95,
-                75 + (5 - rev_cagr) * 3,
-            ),
+            "Declining EPS across consecutive periods indicates pressure on per-share earnings",
+            90,
         )
 
 
 # ============================================================
-# FALLBACK SIGNALS
+# FALLBACK PRO
 # ============================================================
 
 def add_fallback_pro(
@@ -1110,95 +1373,138 @@ def add_fallback_pro(
     records,
 ):
     """
-    Guarantee at least one Pro per company.
+    Guarantee at least one pro.
 
-    This is used only when none of PRO_1 to PRO_12
-    produces a valid signal.
+    Uses the strongest available positive
+    metric before applying a generic fallback.
     """
 
-    candidates = []
+    existing = any(
+        str(r["company_id"]).upper()
+        == str(company_id).upper()
+        and
+        str(r["type"]).lower() == "pro"
+        for r in records
+    )
 
+    if existing:
+        return
+
+    roe = m["roe"]
+    roce = m["roce"]
     rev_cagr = m["revenue_cagr_5"]
     pat_cagr = m["pat_cagr_5"]
     eps_cagr = m["eps_cagr_5"]
-    roe = m["roe"]
-    roce = m["roce"]
+    de = m["debt_to_equity"]
 
-    if rev_cagr is not None:
+    candidates = []
+
+    if (
+        roe is not None
+        and
+        roe > 0
+    ):
+
         candidates.append(
             (
-                rev_cagr,
-                "Revenue growth provides a measurable positive business momentum signal",
+                roe,
+                "FALLBACK_PRO_ROE",
+                f"Positive return on equity of {roe:.2f}% indicates the company is generating returns for shareholders",
+            )
+        )
+
+    if (
+        roce is not None
+        and
+        roce > 0
+    ):
+
+        candidates.append(
+            (
+                roce,
+                "FALLBACK_PRO_ROCE",
+                f"Positive return on capital employed of {roce:.2f}% indicates productive use of invested capital",
+            )
+        )
+
+    if rev_cagr is not None:
+
+        candidates.append(
+            (
+                max(rev_cagr, 0),
+                "FALLBACK_PRO_REVENUE",
+                f"Historical revenue growth of {rev_cagr:.2f}% CAGR provides evidence of the company's top-line trajectory",
             )
         )
 
     if pat_cagr is not None:
+
         candidates.append(
             (
-                pat_cagr,
-                "Positive long-term profit growth provides evidence of earnings compounding",
+                max(pat_cagr, 0),
+                "FALLBACK_PRO_PROFIT",
+                f"Historical net profit growth of {pat_cagr:.2f}% CAGR provides evidence of earnings performance",
             )
         )
 
     if eps_cagr is not None:
+
         candidates.append(
             (
-                eps_cagr,
-                "Positive EPS growth provides evidence of improving per-share earnings",
+                max(eps_cagr, 0),
+                "FALLBACK_PRO_EPS",
+                f"Historical EPS growth of {eps_cagr:.2f}% CAGR provides evidence of per-share earnings performance",
             )
         )
 
-    if roe is not None and roe > 0:
-        candidates.append(
-            (
-                roe,
-                "Positive return on equity indicates the company is generating returns on shareholder capital",
-            )
-        )
+    if (
+        de is not None
+        and
+        de < 1
+    ):
 
-    if roce is not None and roce > 0:
         candidates.append(
             (
-                roce,
-                "Positive return on capital employed indicates productive use of invested capital",
+                100 - de * 20,
+                "FALLBACK_PRO_LEVERAGE",
+                f"Debt-to-equity of {de:.2f}x indicates relatively moderate balance-sheet leverage",
             )
         )
 
     if candidates:
 
-        best_value, text = max(
-            candidates,
+        candidates.sort(
             key=lambda x: x[0],
+            reverse=True,
         )
 
-        confidence = min(
-            85,
-            max(
-                65,
-                65 + abs(float(best_value)) * 0.5,
-            ),
-        )
+        _, rule_id, text = candidates[0]
 
         add_signal(
             records,
             company_id,
             "pro",
-            "PRO_FALLBACK",
+            rule_id,
             text,
-            confidence,
+            70,
         )
 
-    else:
+        return
 
-        add_signal(
-            records,
-            company_id,
-            "pro",
-            "PRO_FALLBACK",
-            "Available financial data provides a baseline positive operating signal for the company",
-            65,
-        )
+    # Absolute fallback
+    add_signal(
+        records,
+        company_id,
+        "pro",
+        "FALLBACK_PRO_GENERAL",
+        "Available financial data provides a measurable basis for evaluating the company's operating and financial performance",
+        65,
+    )
 
+
+# ============================================================
+# FALLBACK CON
+# ============================================================
 
 def add_fallback_con(
     company_id,
@@ -1206,122 +1512,240 @@ def add_fallback_con(
     records,
 ):
     """
-    Guarantee at least one Con per company.
+    Guarantee at least one con.
 
-    This is used only when none of CON_1 to CON_12
-    produces a valid signal.
+    Uses the weakest available metric before
+    applying a generic data-driven fallback.
     """
 
-    candidates = []
+    existing = any(
+        str(r["company_id"]).upper()
+        == str(company_id).upper()
+        and
+        str(r["type"]).lower() == "con"
+        for r in records
+    )
 
+    if existing:
+        return
+
+    roe = m["roe"]
+    roce = m["roce"]
     rev_cagr = m["revenue_cagr_5"]
     pat_cagr = m["pat_cagr_5"]
     eps_cagr = m["eps_cagr_5"]
-    roce = m["roce"]
     de = m["debt_to_equity"]
     icr = m["latest_icr"]
 
-    if rev_cagr is not None:
+    candidates = []
+
+    # Weak ROE
+    if (
+        roe is not None
+        and
+        roe < 15
+    ):
+
         candidates.append(
             (
-                100 - min(max(rev_cagr, 0), 100),
-                "Revenue growth does not meet the stronger growth thresholds used by the core screening rules",
+                100 - roe,
+                "FALLBACK_CON_ROE",
+                f"Return on equity of {roe:.2f}% is below a stronger double-digit efficiency benchmark",
             )
         )
 
-    if pat_cagr is not None:
+    # Weak ROCE
+    if (
+        roce is not None
+        and
+        roce < 15
+    ):
+
         candidates.append(
             (
-                100 - min(max(pat_cagr, 0), 100),
-                "Profit growth does not meet the stronger compounding thresholds used by the core screening rules",
+                100 - roce,
+                "FALLBACK_CON_ROCE",
+                f"Return on capital employed of {roce:.2f}% leaves room for improvement in capital efficiency",
             )
         )
 
-    if eps_cagr is not None:
+    # Weak revenue growth
+    if (
+        rev_cagr is not None
+        and
+        rev_cagr < 10
+    ):
+
         candidates.append(
             (
-                100 - min(max(eps_cagr, 0), 100),
-                "EPS growth does not meet the stronger earnings-growth thresholds used by the core screening rules",
+                20 - rev_cagr,
+                "FALLBACK_CON_REVENUE",
+                f"Revenue CAGR of {rev_cagr:.2f}% indicates relatively modest historical top-line growth",
             )
         )
 
-    if roce is not None:
+    # Weak profit growth
+    if (
+        pat_cagr is not None
+        and
+        pat_cagr < 10
+    ):
+
         candidates.append(
             (
-                max(0, 10 - roce),
-                "Return on capital employed remains below the stronger return threshold used by the screening framework",
+                20 - pat_cagr,
+                "FALLBACK_CON_PROFIT",
+                f"Net profit CAGR of {pat_cagr:.2f}% indicates relatively modest historical earnings growth",
             )
         )
 
-    if de is not None:
+    # Weak EPS growth
+    if (
+        eps_cagr is not None
+        and
+        eps_cagr < 10
+    ):
+
         candidates.append(
             (
-                min(de * 10, 100),
-                "The company carries some balance-sheet leverage that should continue to be monitored",
+                20 - eps_cagr,
+                "FALLBACK_CON_EPS",
+                f"EPS CAGR of {eps_cagr:.2f}% indicates relatively modest historical per-share earnings growth",
             )
         )
 
-    if icr is not None and icr > 0:
+    # Leverage
+    if (
+        de is not None
+        and
+        de > 1
+    ):
+
         candidates.append(
             (
-                max(0, 10 - icr),
-                "Interest coverage should continue to be monitored even though the core distress threshold is not breached",
+                de * 20,
+                "FALLBACK_CON_LEVERAGE",
+                f"Debt-to-equity of {de:.2f}x indicates meaningful reliance on debt financing",
+            )
+        )
+
+    # Interest coverage
+    if (
+        icr is not None
+        and
+        icr < 5
+    ):
+
+        candidates.append(
+            (
+                50 - icr,
+                "FALLBACK_CON_ICR",
+                f"Interest coverage of {icr:.2f}x indicates less headroom for debt servicing than stronger balance sheets",
             )
         )
 
     if candidates:
 
-        score, text = max(
-            candidates,
+        candidates.sort(
             key=lambda x: x[0],
+            reverse=True,
         )
 
-        confidence = min(
-            85,
-            max(
-                65,
-                65 + float(score) * 0.5,
-            ),
-        )
+        _, rule_id, text = candidates[0]
 
         add_signal(
             records,
             company_id,
             "con",
-            "CON_FALLBACK",
+            rule_id,
             text,
-            confidence,
+            70,
         )
 
-    else:
+        return
+
+    # --------------------------------------------------------
+    # Data-driven neutral fallback
+    # --------------------------------------------------------
+
+    latest_pl = m["latest_pl"]
+
+    opm = numeric(
+        latest_pl.get(
+            "opm_percentage"
+        )
+    )
+
+    if pd.notna(opm):
 
         add_signal(
             records,
             company_id,
             "con",
-            "CON_FALLBACK",
-            "Available financial data does not trigger a core risk rule, but continued monitoring remains appropriate",
+            "FALLBACK_CON_MARGIN",
+            f"Current operating margin of {opm:.2f}% leaves scope for further improvement in operating efficiency",
             65,
         )
 
+        return
+
+    add_signal(
+        records,
+        company_id,
+        "con",
+        "FALLBACK_CON_GENERAL",
+        "Available financial indicators still carry business and execution risks that should be monitored",
+        65,
+    )
+
 
 # ============================================================
-# MAIN
+# GUARANTEE COVERAGE
 # ============================================================
 
-def main():
+def ensure_minimum_coverage(
+    company_id,
+    m,
+    records,
+):
+    """
+    Guarantee at least one pro and one con
+    for every company.
+    """
 
-    print("\n" + "=" * 60)
-    print("NLP PROS/CONS GENERATOR")
-    print("=" * 60)
+    add_fallback_pro(
+        company_id,
+        m,
+        records,
+    )
 
-    OUTPUT_DIR.mkdir(
-        parents=True,
-        exist_ok=True,
+    add_fallback_con(
+        company_id,
+        m,
+        records,
+    )
+
+
+# ============================================================
+# MAIN GENERATOR
+# ============================================================
+
+def generate_pros_cons():
+
+    logger.info(
+        "=" * 70
+    )
+
+    logger.info(
+        "STARTING PROS/CONS GENERATION"
+    )
+
+    logger.info(
+        "=" * 70
     )
 
     # --------------------------------------------------------
-    # Load
+    # Load files
     # --------------------------------------------------------
 
     companies = load_excel(
@@ -1350,25 +1774,8 @@ def main():
     )
 
     # --------------------------------------------------------
-    # Normalize IDs
+    # Normalize company IDs
     # --------------------------------------------------------
-
-    for df in [
-        companies,
-        pl,
-        bs,
-        cf,
-        sectors,
-    ]:
-
-        if "company_id" in df.columns:
-
-            df["company_id"] = (
-                df["company_id"]
-                .astype(str)
-                .str.strip()
-                .str.upper()
-            )
 
     companies["id"] = (
         companies["id"]
@@ -1377,33 +1784,53 @@ def main():
         .str.upper()
     )
 
+    pl["company_id"] = (
+        pl["company_id"]
+        .astype(str)
+        .str.strip()
+        .str.upper()
+    )
+
+    bs["company_id"] = (
+        bs["company_id"]
+        .astype(str)
+        .str.strip()
+        .str.upper()
+    )
+
+    cf["company_id"] = (
+        cf["company_id"]
+        .astype(str)
+        .str.strip()
+        .str.upper()
+    )
+
+    sectors["company_id"] = (
+        sectors["company_id"]
+        .astype(str)
+        .str.strip()
+        .str.upper()
+    )
+
     # --------------------------------------------------------
-    # Financial sector detection
+    # Company universe
     # --------------------------------------------------------
 
-    financial_sectors = {
-        "financials",
-        "financial services",
-        "banking",
-        "insurance",
-    }
+    company_ids = (
+        companies["id"]
+        .dropna()
+        .astype(str)
+        .str.strip()
+        .str.upper()
+        .drop_duplicates()
+        .sort_values()
+        .tolist()
+    )
 
-    sector_map = {}
-
-    if (
-        "company_id" in sectors.columns
-        and "broad_sector" in sectors.columns
-    ):
-
-        sector_map = dict(
-            zip(
-                sectors["company_id"],
-                sectors["broad_sector"]
-                .astype(str)
-                .str.strip()
-                .str.lower(),
-            )
-        )
+    logger.info(
+        "Companies found: %s",
+        len(company_ids),
+    )
 
     # --------------------------------------------------------
     # Generate
@@ -1411,257 +1838,311 @@ def main():
 
     records = []
 
-    company_ids = (
-        companies["id"]
-        .dropna()
-        .unique()
-    )
+    processed = 0
+    failed = 0
 
-    logger.info(
-        "Companies to process: %d",
-        len(company_ids),
-    )
+    for index, company_id in enumerate(
+        company_ids,
+        start=1,
+    ):
 
-    for company_id in company_ids:
-
-        metrics = build_company_metrics(
+        logger.info(
+            "Processing %s/%s: %s",
+            index,
+            len(company_ids),
             company_id,
-            pl,
-            bs,
-            cf,
-            companies,
         )
 
-        if metrics is None:
+        try:
 
-            logger.warning(
-                "No profit/loss data for %s",
+            metrics = build_company_metrics(
                 company_id,
+                pl,
+                bs,
+                cf,
+                companies,
             )
 
-            continue
+            if metrics is None:
 
-        sector = sector_map.get(
-            company_id,
-            "",
-        )
-
-        is_financial = (
-            sector in financial_sectors
-        )
-
-        # Count signals before processing
-        before_pro = len(
-            [
-                r for r in records
-                if (
-                    r["company_id"] == company_id
-                    and r["type"] == "pro"
+                logger.warning(
+                    "No P&L data found for %s",
+                    company_id,
                 )
-            ]
-        )
 
-        before_con = len(
-            [
-                r for r in records
-                if (
-                    r["company_id"] == company_id
-                    and r["type"] == "con"
-                )
-            ]
-        )
+                failed += 1
 
-        apply_pro_rules(
-            company_id,
-            metrics,
-            records,
-        )
+                continue
 
-        apply_con_rules(
-            company_id,
-            metrics,
-            records,
-            is_financial,
-        )
-
-        # ----------------------------------------------------
-        # FALLBACK PRO
-        # ----------------------------------------------------
-
-        after_pro = len(
-            [
-                r for r in records
-                if (
-                    r["company_id"] == company_id
-                    and r["type"] == "pro"
-                )
-            ]
-        )
-
-        if after_pro == before_pro:
-
-            add_fallback_pro(
+            apply_pro_rules(
                 company_id,
                 metrics,
                 records,
             )
 
-        # ----------------------------------------------------
-        # FALLBACK CON
-        # ----------------------------------------------------
-
-        after_con = len(
-            [
-                r for r in records
-                if (
-                    r["company_id"] == company_id
-                    and r["type"] == "con"
-                )
-            ]
-        )
-
-        if after_con == before_con:
-
-            add_fallback_con(
+            apply_con_rules(
                 company_id,
                 metrics,
                 records,
             )
 
-    # --------------------------------------------------------
-    # Output dataframe
-    # --------------------------------------------------------
+            ensure_minimum_coverage(
+                company_id,
+                metrics,
+                records,
+            )
 
-    output_columns = [
-        "company_id",
-        "type",
-        "rule_id",
-        "text",
-        "confidence_pct",
-    ]
+            processed += 1
+
+        except Exception as exc:
+
+            failed += 1
+
+            logger.exception(
+                "Failed for %s: %s",
+                company_id,
+                exc,
+            )
+
+    # --------------------------------------------------------
+    # DataFrame
+    # --------------------------------------------------------
 
     result = pd.DataFrame(
         records,
-        columns=output_columns,
+        columns=[
+            "company_id",
+            "type",
+            "rule_id",
+            "text",
+            "confidence_pct",
+        ],
     )
+
+    if result.empty:
+
+        raise RuntimeError(
+            "No pros/cons signals were generated."
+        )
+
+    # --------------------------------------------------------
+    # Normalize
+    # --------------------------------------------------------
+
+    result["company_id"] = (
+        result["company_id"]
+        .astype(str)
+        .str.strip()
+        .str.upper()
+    )
+
+    result["type"] = (
+        result["type"]
+        .astype(str)
+        .str.strip()
+        .str.lower()
+    )
+
+    result["rule_id"] = (
+        result["rule_id"]
+        .astype(str)
+        .str.strip()
+        .str.upper()
+    )
+
+    # --------------------------------------------------------
+    # Remove duplicates
+    # --------------------------------------------------------
 
     result = result.drop_duplicates(
         subset=[
             "company_id",
             "type",
             "rule_id",
-        ]
+        ],
+        keep="first",
     )
 
-    result = result.sort_values(
-        [
-            "company_id",
-            "type",
-            "rule_id",
-        ]
-    ).reset_index(drop=True)
+    # --------------------------------------------------------
+    # Sort
+    # --------------------------------------------------------
+
+    type_order = {
+        "pro": 0,
+        "con": 1,
+    }
+
+    result["_type_order"] = (
+        result["type"]
+        .map(type_order)
+        .fillna(99)
+    )
+
+    result = (
+        result
+        .sort_values(
+            [
+                "company_id",
+                "_type_order",
+                "confidence_pct",
+            ],
+            ascending=[
+                True,
+                True,
+                False,
+            ],
+        )
+        .drop(
+            columns="_type_order"
+        )
+        .reset_index(drop=True)
+    )
+
+    # --------------------------------------------------------
+    # Save
+    # --------------------------------------------------------
 
     result.to_csv(
         OUTPUT_FILE,
         index=False,
+        encoding="utf-8",
+    )
+
+    logger.info(
+        "Saved output: %s",
+        OUTPUT_FILE,
     )
 
     # --------------------------------------------------------
-    # Verification
+    # Validation
     # --------------------------------------------------------
 
-    company_set = set(company_ids)
-
-    pro_companies = set(
-        result.loc[
-            result["type"] == "pro",
-            "company_id",
+    pro_counts = (
+        result[
+            result["type"] == "pro"
         ]
+        .groupby("company_id")
+        .size()
     )
 
-    con_companies = set(
-        result.loc[
-            result["type"] == "con",
-            "company_id",
+    con_counts = (
+        result[
+            result["type"] == "con"
         ]
+        .groupby("company_id")
+        .size()
     )
 
-    missing_pro = sorted(
-        company_set - pro_companies
-    )
+    missing_pro = [
+        company
+        for company in company_ids
+        if pro_counts.get(company, 0) == 0
+    ]
 
-    missing_con = sorted(
-        company_set - con_companies
+    missing_con = [
+        company
+        for company in company_ids
+        if con_counts.get(company, 0) == 0
+    ]
+
+    unique_companies = (
+        result["company_id"]
+        .nunique()
     )
 
     # --------------------------------------------------------
     # Summary
     # --------------------------------------------------------
 
-    print("\n" + "=" * 60)
-    print("GENERATION SUMMARY")
-    print("=" * 60)
+    print()
 
     print(
-        f"Companies: {len(company_ids)}"
+        "=" * 70
     )
 
     print(
-        f"Output rows: {len(result)}"
+        "PROS/CONS GENERATION"
     )
-
-    print("\nSignal counts:")
 
     print(
-        result["type"]
-        .value_counts()
-        .to_string()
+        "=" * 70
     )
-
-    print("\nRule counts:")
 
     print(
-        result["rule_id"]
-        .value_counts()
-        .sort_index()
-        .to_string()
+        f"Companies requested : {len(company_ids)}"
     )
-
-    print("\nOutput:")
-    print(OUTPUT_FILE)
-
-    print("\nVerification:")
 
     print(
-        f"Companies without Pro: {len(missing_pro)}"
+        f"Companies processed : {processed}"
     )
-
-    if missing_pro:
-        print(missing_pro)
 
     print(
-        f"Companies without Con: {len(missing_con)}"
+        f"Failed              : {failed}"
     )
 
-    if missing_con:
-        print(missing_con)
+    print(
+        f"Output rows         : {len(result)}"
+    )
 
-    if not missing_pro and not missing_con:
+    print(
+        f"Unique companies    : {unique_companies}"
+    )
+
+    print(
+        f"Companies with pro  : {len(pro_counts)}"
+    )
+
+    print(
+        f"Companies with con  : {len(con_counts)}"
+    )
+
+    print(
+        f"Missing pro         : {missing_pro}"
+    )
+
+    print(
+        f"Missing con         : {missing_con}"
+    )
+
+    print(
+        f"Output              : {OUTPUT_FILE}"
+    )
+
+    print(
+        "=" * 70
+    )
+
+    if (
+        len(company_ids) == 92
+        and
+        unique_companies == 92
+        and
+        not missing_pro
+        and
+        not missing_con
+    ):
+
         print(
-            "\nPASS: Every company has at least 1 Pro and 1 Con."
+            "STATUS              : PASS"
         )
+
     else:
+
         print(
-            "\nFAIL: Some companies are missing signals."
+            "STATUS              : FAIL"
         )
 
-    print("\nConfidence rule:")
     print(
-        "Only signals with confidence > 60% are included."
+        "=" * 70
     )
 
-    print("\n" + "=" * 60)
+    return result
 
+
+# ============================================================
+# ENTRY POINT
+# ============================================================
 
 if __name__ == "__main__":
-    main()
+
+    generate_pros_cons()
