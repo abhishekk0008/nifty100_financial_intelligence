@@ -1,0 +1,93 @@
+company_id,cluster_id,cluster_name,distance_from_centroid
+ABB,0,Balanced Performers,0.906366
+ADANIENSOL,0,Balanced Performers,0.830735
+ADANIENT,0,Balanced Performers,0.948232
+ADANIGREEN,4,Leveraged Growth,0.799314
+ADANIPORTS,0,Balanced Performers,0.882811
+ADANIPOWER,0,Balanced Performers,0.660275
+AMBUJACEM,0,Balanced Performers,0.326275
+APOLLOHOSP,0,Balanced Performers,0.250211
+ASIANPAINT,0,Balanced Performers,0.358452
+ATGL,0,Balanced Performers,0.237641
+AXISBANK,4,Leveraged Growth,1.913025
+BAJAJ-AUTO,0,Balanced Performers,0.50515
+BAJAJFINSV,4,Leveraged Growth,0.990325
+BAJAJHLDNG,0,Balanced Performers,0.56132
+BAJFINANCE,0,Balanced Performers,2.516985
+BANKBARODA,4,Leveraged Growth,1.948594
+BEL,1,High Growth Leaders,0.735984
+BHARTIARTL,0,Balanced Performers,0.72253
+BHEL,0,Balanced Performers,0.886487
+BOSCHLTD,0,Balanced Performers,0.722278
+BPCL,0,Balanced Performers,0.230083
+BRITANNIA,0,Balanced Performers,1.541967
+CANBK,4,Leveraged Growth,2.707281
+CHOLAFIN,4,Leveraged Growth,1.006145
+CIPLA,3,Quality Compounders,0.0
+COALINDIA,0,Balanced Performers,5.535646
+DABUR,0,Balanced Performers,0.782935
+DIVISLAB,0,Balanced Performers,0.673721
+DLF,0,Balanced Performers,0.858635
+DMART,0,Balanced Performers,0.323036
+DRREDDY,0,Balanced Performers,1.219166
+EICHERMOT,0,Balanced Performers,0.508191
+GAIL,0,Balanced Performers,0.273976
+GODREJCP,0,Balanced Performers,0.287077
+GRASIM,0,Balanced Performers,0.932324
+HAL,1,High Growth Leaders,0.735984
+HAVELLS,0,Balanced Performers,0.871204
+HCLTECH,2,Value / Recovery,0.218452
+HDFCBANK,4,Leveraged Growth,4.933196
+HDFCLIFE,0,Balanced Performers,0.673335
+HEROMOTOCO,0,Balanced Performers,0.495321
+HINDALCO,0,Balanced Performers,2.641003
+HINDUNILVR,0,Balanced Performers,1.549741
+ICICIBANK,4,Leveraged Growth,1.287311
+ICICIGI,0,Balanced Performers,0.714056
+ICICIPRULI,0,Balanced Performers,2.100622
+INDIGO,0,Balanced Performers,2.948975
+INDUSINDBK,4,Leveraged Growth,0.81916
+INFY,2,Value / Recovery,0.638188
+IOC,0,Balanced Performers,0.230655
+IRCTC,0,Balanced Performers,0.837362
+IRFC,4,Leveraged Growth,0.599897
+ITC,0,Balanced Performers,0.456887
+JINDALSTEL,0,Balanced Performers,0.255263
+JIOFIN,0,Balanced Performers,0.696621
+JSWENERGY,0,Balanced Performers,0.377053
+JSWSTEEL,0,Balanced Performers,0.28731
+KOTAKBANK,4,Leveraged Growth,1.637677
+LICI,0,Balanced Performers,1.971141
+LODHA,0,Balanced Performers,0.841104
+LT,0,Balanced Performers,0.902757
+LTIM,2,Value / Recovery,0.20121
+M&M,0,Balanced Performers,0.415714
+MARUTI,0,Balanced Performers,0.329708
+MOTHERSON,0,Balanced Performers,0.483942
+NAUKRI,0,Balanced Performers,0.329428
+NESTLEIND,0,Balanced Performers,0.404546
+NHPC,0,Balanced Performers,0.995711
+NTPC,0,Balanced Performers,0.366465
+ONGC,0,Balanced Performers,0.238732
+PFC,4,Leveraged Growth,0.627909
+PIDILITIND,0,Balanced Performers,0.496895
+PNB,0,Balanced Performers,1.248809
+POWERGRID,0,Balanced Performers,0.973533
+RECLTD,4,Leveraged Growth,0.553738
+RELIANCE,0,Balanced Performers,0.233067
+SBILIFE,0,Balanced Performers,0.793482
+SBIN,4,Leveraged Growth,1.121618
+SHREECEM,0,Balanced Performers,0.338635
+SHRIRAMFIN,4,Leveraged Growth,1.244944
+SIEMENS,0,Balanced Performers,1.389618
+SUNPHARMA,0,Balanced Performers,1.072069
+TATACONSUM,0,Balanced Performers,1.605557
+TATAMOTORS,0,Balanced Performers,0.313998
+TATAPOWER,0,Balanced Performers,0.649859
+TATASTEEL,0,Balanced Performers,0.260863
+TCS,2,Value / Recovery,0.597255
+TECHM,2,Value / Recovery,0.040947
+TITAN,0,Balanced Performers,0.662944
+TORNTPHARM,0,Balanced Performers,0.249317
+TRENT,0,Balanced Performers,0.24579
+TVSMOTOR,0,Balanced Performers,1.139005
