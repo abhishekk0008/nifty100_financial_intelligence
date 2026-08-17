@@ -1,0 +1,6 @@
+cluster_id,cluster_name,company_count,return_on_equity_pct_mean,return_on_equity_pct_median,debt_to_equity_mean,debt_to_equity_median,revenue_cagr_5yr_mean,revenue_cagr_5yr_median,fcf_cagr_5yr_mean,fcf_cagr_5yr_median,operating_profit_margin_pct_mean,operating_profit_margin_pct_median
+0,Balanced Performers,69,33.8885,15.735,0.6594,0.2362,,,,,1951.6418,21.0
+1,High Growth Leaders,2,4280.315,4280.315,0.565,0.565,,,,,28.5,28.5
+2,Value / Recovery,5,27.126,23.01,0.0933,0.0949,,,,,20.0,22.0
+3,Quality Compounders,1,15.55,15.55,0.0209,0.0209,,,,,6291.0,6291.0
+4,Leveraged Growth,15,17.1243,15.795,7.498,6.8361,,,,,-4000.0714,58.0

@@ -1,0 +1,13 @@
+company_id,broad_sector,metric,value,sector_mean,sector_std,z_score,absolute_z_score
+ADANIGREEN,Energy,debt_to_equity,6.5953,1.5385,1.6072,3.1463,3.1463
+BAJAJHLDNG,Financials,net_profit_margin_pct,432.73,39.2568,87.5712,4.4932,4.4932
+BAJAJHLDNG,Financials,earnings_per_share,653.0,80.5455,134.43,4.2584,4.2584
+BAJAJHLDNG,Financials,interest_coverage,3764.5,366.0323,948.4109,3.5833,3.5833
+BOSCHLTD,Consumer Discretionary,earnings_per_share,844.0,175.2143,218.3399,3.063,3.063
+HDFCBANK,Financials,operating_profit_margin_pct,-44685.0,-1649.2381,11908.3578,-3.6139,3.6139
+INDIGO,Consumer Discretionary,asset_turnover,56.3863,5.1578,14.2156,3.6037,3.6037
+INDIGO,Consumer Discretionary,return_on_equity_pct,892.57,86.7243,223.6619,3.603,3.603
+INDIGO,Consumer Discretionary,operating_profit_margin_pct,16331.0,1554.3571,4311.8293,3.427,3.427
+PNB,Financials,asset_turnover,1.507,0.1983,0.302,4.3332,4.3332
+PNB,Financials,return_on_equity_pct,61.32,19.0068,12.7227,3.3258,3.3258
+TATAMOTORS,Consumer Discretionary,free_cash_flow_cr,45133.0,4444.1429,12143.0173,3.3508,3.3508
